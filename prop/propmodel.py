@@ -5,6 +5,40 @@ import pickle
 from smt.surrogate_models import KRG
 
 
+# import the data:
+ctfile = open('prop/ct.pkl', 'rb')
+datact = pickle.load(ctfile)
+cpfile = open('prop/cp.pkl', 'rb')
+datacp = pickle.load(cpfile)
+
+# create the training data:
+nrpm = np.linspace(500,5000,6) # rotor speed (rpm)
+vaxial = np.linspace(0,100,6) # axial inflow (m/s)
+vtan = np.linspace(0,100,6) # edgewise inflow (m/s)
+x = np.zeros([216,3])
+index = 0
+for i, rpm in enumerate(nrpm):
+    for j, u in enumerate(vaxial):
+        for k, v in enumerate(vtan):
+            x[index,0] = nrpm[i]
+            x[index,1] = vaxial[j]
+            x[index,2] = vtan[k]
+            index += 1
+
+yct = np.reshape(datact, (216, 1))
+ycp = np.reshape(datacp, (216, 1))
+
+# train the model:
+sm_ct = KRG(theta0=[1e-2], print_global=False, print_solver=False, hyper_opt='TNC')
+sm_ct.set_training_values(x, yct)
+sm_ct.train()
+#self.sm_ct = sm_ct
+
+sm_cp = KRG(theta0=[1e-2], print_global=False, print_solver=False, hyper_opt='TNC')
+sm_cp.set_training_values(x, ycp)
+sm_cp.train()
+#self.sm_cp = sm_cp
+
 
 
 class Prop(csdl.Model):
@@ -29,12 +63,12 @@ class Prop(csdl.Model):
         # custom operation insertion
         ct, cp = csdl.custom(rpm, vAxial, vTan, op=PropExplicit(num_nodes=num))
         C_T = self.register_output(name + '_C_T', 1*ct)
-        C_P = self.register_output(name + '_C_P', 1*cp)
+        C_P = self.register_output(name + '_C_P', (cp**2 + 1E-14)**0.5)
 
         rho = self.declare_variable('density', shape=(num), val=1.225)
         n = rpm/60
-        thrust = self.register_output(name + '_thrust', C_T*rho*(n**2)*(d**4))
-        power = self.register_output(name + '_power', C_P*rho*(n**3)*(d**5))
+        self.register_output(name + '_thrust', C_T*rho*(n**2)*(d**4))
+        self.register_output(name + '_power', C_P*rho*(n**3)*(d**5))
 
 
 
@@ -42,40 +76,6 @@ class Prop(csdl.Model):
 class PropExplicit(csdl.CustomExplicitOperation):
     def initialize(self):
         self.parameters.declare('num_nodes')
-
-        # import the data:
-        ctfile = open('prop/ct.pkl', 'rb')
-        datact = pickle.load(ctfile)
-        cpfile = open('prop/cp.pkl', 'rb')
-        datacp = pickle.load(cpfile)
-
-        # create the training data:
-        nrpm = np.linspace(500,5000,6) # rotor speed (rpm)
-        vaxial = np.linspace(0,100,6) # axial inflow (m/s)
-        vtan = np.linspace(0,100,6) # edgewise inflow (m/s)
-        x = np.zeros([216,3])
-        index = 0
-        for i, rpm in enumerate(nrpm):
-            for j, u in enumerate(vaxial):
-                for k, v in enumerate(vtan):
-                    x[index,0] = nrpm[i]
-                    x[index,1] = vaxial[j]
-                    x[index,2] = vtan[k]
-                    index += 1
-
-        yct = np.reshape(datact, (216, 1))
-        ycp = np.reshape(datacp, (216, 1))
-
-        # train the model:
-        sm_ct = KRG(theta0=[1e-2], print_global=False, print_solver=False, hyper_opt='TNC')
-        sm_ct.set_training_values(x, yct)
-        sm_ct.train()
-        self.sm_ct = sm_ct
-
-        sm_cp = KRG(theta0=[1e-2], print_global=False, print_solver=False, hyper_opt='TNC')
-        sm_cp.set_training_values(x, ycp)
-        sm_cp.train()
-        self.sm_cp = sm_cp
 
         
     def define(self):
@@ -102,9 +102,12 @@ class PropExplicit(csdl.CustomExplicitOperation):
         num = self.parameters['num_nodes']
 
         # the surrogate model interpolation:
-        point = np.transpose(np.array([[inputs['rpm'], inputs['vAxial'], inputs['vTan']]]).reshape(3,num))
-        ct = self.sm_ct.predict_values(point)
-        cp = self.sm_cp.predict_values(point)
+        point = np.zeros((num,3))
+        point[:,0] = inputs['rpm']
+        point[:,1] = inputs['vAxial']
+        point[:,2] = inputs['vTan']
+        ct = sm_ct.predict_values(point)
+        cp = sm_cp.predict_values(point)
 
         # define the outputs:
         outputs['ct'] = 1*ct
@@ -113,13 +116,16 @@ class PropExplicit(csdl.CustomExplicitOperation):
     def compute_derivatives(self, inputs, derivatives):
         num = self.parameters['num_nodes']
 
-        point = np.transpose(np.array([[inputs['rpm'], inputs['vAxial'], inputs['vTan']]]).reshape(3,num))
-        dct_drpm = self.sm_ct.predict_derivatives(point, 0)
-        dct_dvaxial = self.sm_ct.predict_derivatives(point, 1)
-        dct_dvtan = self.sm_ct.predict_derivatives(point, 2)
-        dcp_drpm = self.sm_cp.predict_derivatives(point, 0)
-        dcp_dvaxial = self.sm_cp.predict_derivatives(point, 1)
-        dcp_dvtan = self.sm_cp.predict_derivatives(point, 2)
+        point = np.zeros((num,3))
+        point[:,0] = inputs['rpm']
+        point[:,1] = inputs['vAxial']
+        point[:,2] = inputs['vTan']
+        dct_drpm = sm_ct.predict_derivatives(point, 0)
+        dct_dvaxial = sm_ct.predict_derivatives(point, 1)
+        dct_dvtan = sm_ct.predict_derivatives(point, 2)
+        dcp_drpm = sm_cp.predict_derivatives(point, 0)
+        dcp_dvaxial = sm_cp.predict_derivatives(point, 1)
+        dcp_dvtan = sm_cp.predict_derivatives(point, 2)
 
         derivatives['ct', 'rpm'] = np.diag(dct_drpm.flatten())
         derivatives['ct', 'vAxial'] = np.diag(dct_dvaxial.flatten())
@@ -134,7 +140,7 @@ class PropExplicit(csdl.CustomExplicitOperation):
 if __name__ == '__main__':
     
     name = 'cruise'
-    sim = python_csdl_backend.Simulator(Prop(name=name, num_nodes=2, d=2.4))
+    sim = python_csdl_backend.Simulator(Prop(name=name, num_nodes=4, d=2.4))
     sim.run()
 
     print('C_T: ', sim[name + '_C_T'])
@@ -142,5 +148,5 @@ if __name__ == '__main__':
     print('Thrust: ', sim[name + '_thrust'])
     print('Power: ', sim[name + '_power'])
 
-    # sim.check_partials(step=1E-6, compact_print=True)
+    sim.check_partials(step=1E-6, compact_print=True)
     

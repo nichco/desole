@@ -34,7 +34,8 @@ class Aero(csdl.Model):
         num = self.parameters['num_nodes']
         s = self.parameters['wing_area']
 
-        alpha = self.declare_variable('ua', shape=(num), val=0.01)
+        ua = self.declare_variable('ua', shape=(num), val=0.01)
+        alpha = self.register_output('alpha', 1*ua)
         mach = self.declare_variable('mach', shape=(num), val=0.1)
         v = self.declare_variable('v', shape=num)
         rho = self.declare_variable('density', shape=(num), val=1.225)
@@ -144,7 +145,7 @@ class AeroExplicit(csdl.CustomExplicitOperation):
 
 if __name__ == '__main__':
     
-    sim = python_csdl_backend.Simulator(Aero(num_nodes=2))
+    sim = python_csdl_backend.Simulator(Aero(num_nodes=2, wing_area=19.6))
     sim.run()
 
     print('C_L: ', sim['C_L'])

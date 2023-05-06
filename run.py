@@ -6,6 +6,9 @@ from odeproblemtest import ODEProblemTest
 from modopt.scipy_library import SLSQP
 #from modopt.snopt_library import SNOPT
 from modopt.csdl_library import CSDLProblem
+import matplotlib.pyplot as plt
+#import matplotlib as mpl
+plt.rcParams.update(plt.rcParamsDefault)
 
 
 
@@ -46,21 +49,22 @@ class Run(csdl.Model):
 
         # final altitude constraint:
         self.register_output('final_h', h[-1])
-        self.add_constraint('final_h', equals=300, scaler=1E-2)
+        self.add_constraint('final_h', equals=300, scaler=1E-3)
+        self.add_constraint('h', lower=-1)
  
         
-        # compute total energy
+        # compute the total energy:
         self.register_output('energy', e[-1])
         self.print_var(e[-1])
        
         
         
-        # for the minimum energy objective
-        self.add_design_variable('ua',lower=-np.pi/2,upper=np.pi/2,scaler=4)
-        self.add_design_variable('ux',lower=0, scaler=1E-3)
-        self.add_design_variable('uz',lower=0, scaler=1E-3)
-        self.add_design_variable('dt',lower=2.0,scaler=1E-1)
-        self.add_objective('energy', scaler=1E-4)
+        # for the minimum energy objective:
+        self.add_design_variable('ua',lower=-np.pi/2,upper=np.pi/2,scaler=1E2)
+        self.add_design_variable('ux',lower=0, upper=5000, scaler=1E-3)
+        self.add_design_variable('uz',lower=0, upper=5000, scaler=1E-3)
+        self.add_design_variable('dt',lower=2.0, scaler=1E0)
+        self.add_objective('energy', scaler=1E0)
 
 
 
@@ -70,7 +74,7 @@ class Run(csdl.Model):
 
 options = {}
 options['dt'] = 3
-options['m'] = 3000 # (kg)
+options['mass'] = 3000 # (kg)
 options['wing_area'] = 19.6 # (m^2)
 options['lift_rotor_diameter'] = 2.4 # (m)
 options['cruise_rotor_diameter'] = 2.6 # (m)
@@ -81,21 +85,19 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 sim.run()
 
 #sim.check_partials(compact_print=False)
-#sim.check_totals(step=1E-6)
+sim.check_totals(step=1E-6)
 
 """
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
 optimizer = SLSQP(prob, maxiter=1000, ftol=1E-4)
-#optimizer = SNOPT(prob,Major_iterations=1000,
-#                    Major_optimality=1e-7,
-#                    Major_feasibility=1E-7,
-#                    append2file=True,
-#                    Linesearch_tolerance=0.99,
-#                    #Hessian_frequency=10,
-#                    Major_step_limit=0.1
-#                    )
 optimizer.solve()
 optimizer.print_results()
-# plot states from integrator
-plt.show()
 """
+
+plt.show()
+
+#print(sim['v'])
+#print(sim['x'])
+#print(sim['gamma'])
+#print(sim['h'])
+#print(sim['e'])
