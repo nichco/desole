@@ -2,6 +2,8 @@ import csdl
 import numpy as np
 import python_csdl_backend
 from prop.propmodel import Prop
+from aero.atm import Atm
+from aero.aeromodel import Aero
 
 
 
@@ -30,9 +32,12 @@ class ODESystemModel(csdl.Model):
         # options:
         m = options['mass']
         g = options['gravity']
+
+        # the atmosphere model:
+        self.add(Atm(num_nodes=n), name='Atm')
         
         # the aerodynamic model:
-        self.add(aero(num_nodes=n, options=options), name='aero')
+        self.add(Aero(num_nodes=n, options=options), name='Aero')
         L = self.declare_variable('lift', shape=(n))
         D = self.declare_variable('drag', shape=(n))
 
