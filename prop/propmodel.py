@@ -63,7 +63,7 @@ class Prop(csdl.Model):
         # custom operation insertion
         ct, cp = csdl.custom(rpm, vAxial, vTan, op=PropExplicit(num_nodes=num))
         C_T = self.register_output(name + '_C_T', 1*ct)
-        C_P = self.register_output(name + '_C_P', (cp**2 + 1E-14)**0.5)
+        C_P = self.register_output(name + '_C_P', 1*cp)
 
         rho = self.declare_variable('density', shape=(num), val=1.225)
         n = rpm/60
@@ -102,7 +102,7 @@ class PropExplicit(csdl.CustomExplicitOperation):
         num = self.parameters['num_nodes']
 
         # the surrogate model interpolation:
-        point = np.zeros((num,3))
+        point = np.zeros([num,3])
         point[:,0] = inputs['rpm']
         point[:,1] = inputs['vAxial']
         point[:,2] = inputs['vTan']
@@ -116,7 +116,7 @@ class PropExplicit(csdl.CustomExplicitOperation):
     def compute_derivatives(self, inputs, derivatives):
         num = self.parameters['num_nodes']
 
-        point = np.zeros((num,3))
+        point = np.zeros([num,3])
         point[:,0] = inputs['rpm']
         point[:,1] = inputs['vAxial']
         point[:,2] = inputs['vTan']
@@ -139,7 +139,7 @@ class PropExplicit(csdl.CustomExplicitOperation):
 
 if __name__ == '__main__':
     
-    name = 'cruise'
+    name = 'lift'
     sim = python_csdl_backend.Simulator(Prop(name=name, num_nodes=4, d=2.4))
     sim.run()
 
