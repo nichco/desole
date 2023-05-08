@@ -20,10 +20,9 @@ class ODEProblemTest(ODEProblem):
         self.set_ode_system(ODESystemModel)
 
         # export variables of interest from ode for troubleshooting
-        #self.set_profile_system(ODESystemModel)
-        #self.add_profile_output('lift')
-        #self.add_profile_output('drag')
-        #self.add_profile_output('cruisepower')
-        #self.add_profile_output('liftpower')
-        #self.add_profile_output('dv')
-        #self.add_profile_output('dgamma')
+        self.set_profile_system(ODESystemModel)
+        self.add_profile_output('alpha')
+        self.add_profile_output('lift')
+        self.add_profile_output('drag')
+        self.add_profile_output('cruise_power')
+        self.add_profile_output('lift_power')

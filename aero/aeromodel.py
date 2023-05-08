@@ -39,8 +39,8 @@ class Aero(csdl.Model):
         v = self.declare_variable('v', shape=num)
         rho = self.declare_variable('density', shape=(num), val=1.225)
 
-        self.print_var(v)
-        self.print_var(alpha)
+        #self.print_var(v)
+        #self.print_var(alpha)
 
         # custom operation insertion:
         cl, cd = csdl.custom(alpha, mach, op=AeroExplicit(num_nodes=num))

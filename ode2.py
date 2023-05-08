@@ -46,8 +46,8 @@ class ODESystemModel(csdl.Model):
         L = self.declare_variable('lift', shape=(n))
         D = self.declare_variable('drag', shape=(n))
 
-        self.print_var(L)
-        self.print_var(D)
+        #self.print_var(L)
+        #self.print_var(D)
 
 
         # rotor and motor models
@@ -77,7 +77,7 @@ class ODESystemModel(csdl.Model):
 
         cruise_eta = 1
         lift_eta = 1
-        de = 1E-6*((cruise_power/cruise_eta) + (lift_power/lift_eta))
+        de = 1E-4*((cruise_power/cruise_eta) + (lift_power/lift_eta))
 
         # register outputs
         self.register_output('du', du)

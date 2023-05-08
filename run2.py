@@ -25,9 +25,9 @@ class Run(csdl.Model):
         self.register_output('hvec', h_vec)
         
         # add dynamic inputs to the csdl model
-        self.create_input('ux', val=np.ones((num))*2500)
-        self.create_input('uz', val=np.ones((num))*1000)
-        self.create_input('ua', val=np.ones((num))*0) # pitch angle (theta)
+        ux = self.create_input('ux', val=np.ones((num))*2000)
+        uz = self.create_input('uz', val=np.ones((num))*1000)
+        ua = self.create_input('ua', val=np.ones((num))*0) # pitch angle (theta)
 
         # initial conditions for states
         self.create_input('u_0', 0.1)
@@ -55,8 +55,21 @@ class Run(csdl.Model):
         self.add_constraint('x', lower=-1)
 
         # final velocity constraint:
-        self.register_output('final_u', u[-1])
-        self.add_constraint('final_u', equals=50, scaler=1E-1)
+        v = (u**2 + w**2)**0.5
+        self.register_output('final_v', v[-1])
+        self.add_constraint('final_v', equals=50, scaler=1E-1)
+        
+
+        self.add_constraint('cruise_power', upper=468300, scaler=1E-5)
+        self.add_constraint('lift_power', upper=133652, scaler=1E-5)
+        
+        alpha = self.declare_variable('alpha', shape=(num,))
+        gamma = ua - alpha
+        self.register_output('final_gamma', gamma[-1])
+        self.add_constraint('final_gamma', equals=0)
+        
+        self.register_output('theta_0', ua[0])
+        self.add_constraint('theta_0', equals=0)
  
         
         # compute the total energy:
@@ -66,11 +79,11 @@ class Run(csdl.Model):
         
         
         # for the minimum energy objective:
-        self.add_design_variable('ua',lower=-np.pi/4,upper=np.pi/4,scaler=1E1)
+        self.add_design_variable('ua',lower=np.deg2rad(-30),upper=np.deg2rad(30),scaler=1E1)
         self.add_design_variable('ux',lower=0, upper=5000, scaler=1E-4)
         self.add_design_variable('uz',lower=0, upper=5000, scaler=1E-4)
-        #self.add_design_variable('dt',lower=2.0, scaler=1E0)
-        self.add_objective('energy', scaler=1E0)
+        self.add_design_variable('dt',lower=2.0, scaler=1E0)
+        self.add_objective('energy', scaler=1E-2)
 
 
 
@@ -85,7 +98,7 @@ options['wing_area'] = 19.6 # (m^2)
 options['lift_rotor_diameter'] = 2.4 # (m)
 options['cruise_rotor_diameter'] = 2.6 # (m)
 
-num = 15
+num = 35
 ODEProblem = ODEProblemTest('RK4', 'time-marching', num_times=num, display='default', visualization='end')
 sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #im.run()
@@ -95,7 +108,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=1000, ftol=1E-4)
+optimizer = SLSQP(prob, maxiter=1000, ftol=1E-5)
 optimizer.solve()
 optimizer.print_results()
 
@@ -111,3 +124,20 @@ plt.show()
 #print(sim['gamma'])
 #print(sim['h'])
 #print(sim['e'])
+
+
+plt.plot(sim['ux'])
+plt.plot(sim['uz'])
+plt.plot(np.rad2deg(sim['ua']))
+plt.show()
+
+plt.plot(sim['lift'])
+plt.plot(sim['drag'])
+plt.show()
+
+
+
+
+
+
+

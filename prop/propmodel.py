@@ -5,11 +5,23 @@ import pickle
 from smt.surrogate_models import KRG
 
 
+
+
 # import the data:
 ctfile = open('prop/ct.pkl', 'rb')
 datact = pickle.load(ctfile)
 cpfile = open('prop/cp.pkl', 'rb')
-datacp = pickle.load(cpfile)
+datacp_in = pickle.load(cpfile)
+
+
+datacp = np.zeros((6,6,6))
+for i in range(6):
+    for j in range(6):
+        for k in range(6):
+            if datacp_in[i,j,k] < 0:
+                datacp[i,j,k] = 0
+            else:
+                datacp[i,j,k] = datacp_in[i,j,k]
 
 # create the training data:
 nrpm = np.linspace(500,5000,6) # rotor speed (rpm)
