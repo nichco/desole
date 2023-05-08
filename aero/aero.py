@@ -55,8 +55,8 @@ sm_cl = RBF(d0=0.3,print_global=False,print_solver=False,)
 sm_cl.set_training_values(x, cldata)
 sm_cl.train()
 
-sm_cd = RBF(d0=0.3,print_global=False,print_solver=False,)
-sm_cd.set_training_values(x, cddata)
+sm_cd = RBF(d0=0.5,print_global=False,print_solver=False,)
+sm_cd.set_training_values(x, cddata + 0.03)
 sm_cd.train()
 
 
@@ -95,7 +95,8 @@ for i, m in enumerate(machnum):
         datacd[j] = cd
 
     plt.plot(aoa,datacl)
-    plt.plot(aoa,datacd)
+    #plt.plot(aoa,datacd)
+    #plt.scatter(alpha,cd1)
     #plt.plot(ddata)
 
 plt.show()

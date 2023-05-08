@@ -8,7 +8,7 @@ from modopt.scipy_library import SLSQP
 from modopt.csdl_library import CSDLProblem
 import matplotlib.pyplot as plt
 #import matplotlib as mpl
-plt.rcParams.update(plt.rcParamsDefault)
+#plt.rcParams.update(plt.rcParamsDefault)
 
 
 
@@ -101,14 +101,14 @@ options['cruise_rotor_diameter'] = 2.6 # (m)
 num = 35
 ODEProblem = ODEProblemTest('RK4', 'time-marching', num_times=num, display='default', visualization='end')
 sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
-#im.run()
+#sim.run()
 
 #sim.check_partials(compact_print=False)
 #sim.check_totals(step=1E-6)
 
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=1000, ftol=1E-5)
+optimizer = SLSQP(prob, maxiter=1000, ftol=1E-6)
 optimizer.solve()
 optimizer.print_results()
 
@@ -123,7 +123,6 @@ print(np.array2string(sim['ua'],separator=','))
 
 plt.show()
 
-#print(sim['v'])
 #print(sim['x'])
 #print(sim['gamma'])
 #print(sim['h'])
@@ -132,7 +131,7 @@ plt.show()
 
 plt.plot(sim['ux'])
 plt.plot(sim['uz'])
-plt.plot(np.rad2deg(sim['ua']))
+plt.plot(np.rad2deg(sim['ua'])*100)
 plt.show()
 
 plt.plot(sim['lift'])

@@ -51,7 +51,8 @@ class ODESystemModel(csdl.Model):
 
 
         # rotor and motor models
-        self.register_output('cruise_vaxial', (u**2 + 1E-14)**0.5)
+        #self.register_output('cruise_vaxial', (u**2 + 1E-14)**0.5)
+        self.register_output('cruise_vaxial', 1*u)
         self.register_output('cruise_vtan', (w**2 + 1E-14)**0.5)
         self.register_output('cruise_rpm', 1*ux)
         self.add(Prop(name='cruise', num_nodes=n, d=options['cruise_rotor_diameter']), name='CruiseProp', 
@@ -60,7 +61,8 @@ class ODESystemModel(csdl.Model):
         cruise_power = self.declare_variable('cruise_power', shape=(n))
 
 
-        self.register_output('lift_vaxial', ((-w)**2 + 1E-14)**0.5)
+        #self.register_output('lift_vaxial', ((-w)**2 + 1E-14)**0.5)
+        self.register_output('lift_vaxial', -1*w)
         self.register_output('lift_vtan', (u**2 + 1E-14)**0.5)
         self.register_output('lift_rpm', 1*uz)
         self.add(Prop(name='lift', num_nodes=n, d=options['lift_rotor_diameter']), name='LiftProp', 
