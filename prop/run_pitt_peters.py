@@ -74,8 +74,8 @@ print(sim['C_P'].flatten())
 
 # scripting:
 n = np.linspace(500,5000,6) # rotor speed (rpm)
-vaxial = np.linspace(0,100,6) # axial inflow (m/s)
-vtan = np.linspace(0,100,6) # edgewise inflow (m/s)
+vaxial = np.linspace(-30,100,10) # axial inflow (m/s)
+vtan = np.linspace(-30,100,10) # edgewise inflow (m/s)
 datact = np.zeros((len(n), len(vaxial), len(vtan)))
 datacp = np.zeros((len(n), len(vaxial), len(vtan)))
 
@@ -90,7 +90,7 @@ for k, rpm in enumerate(n):
 
 print(datact)
 
-levels = np.arange(-0.2, 0.4, 0.02)
+
 plt.contourf(vaxial,vtan,datact[0,:,:])
 plt.colorbar(shrink=1)
 plt.show()
@@ -115,8 +115,8 @@ plt.contourf(vaxial,vtan,datact[5,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
-file = open('ct.pkl', 'wb')
+file = open('ct2.pkl', 'wb')
 pickle.dump(datact, file)
 
-file = open('cp.pkl', 'wb')
+file = open('cp2.pkl', 'wb')
 pickle.dump(datacp, file)
