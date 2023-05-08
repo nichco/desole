@@ -11,11 +11,13 @@ datact = pickle.load(ctfile)
 cpfile = open('prop/cp.pkl', 'rb')
 datacp_in = pickle.load(cpfile)
 
+
+# filter the data:
 datacp = np.zeros((6,6,6))
 for i in range(6):
     for j in range(6):
         for k in range(6):
-            if datacp_in[i,j,k] < 0:
+            if datacp_in[i,j,k] < 0.02:
                 datacp[i,j,k] = 0
             else:
                 datacp[i,j,k] = datacp_in[i,j,k]
@@ -71,7 +73,7 @@ datacp = np.zeros((num,num))
 for i, u in enumerate(vaxial):
     for j, v in enumerate(vtan):
         point = np.zeros([1, 3])
-        point[0][0] = 1500
+        point[0][0] = 1000
         point[0][1] = u
         point[0][2] = v
 
