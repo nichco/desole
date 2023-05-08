@@ -79,7 +79,7 @@ class Run(csdl.Model):
         
         
         # for the minimum energy objective:
-        self.add_design_variable('ua',lower=np.deg2rad(-30),upper=np.deg2rad(30),scaler=1E2)
+        self.add_design_variable('ua',lower=np.deg2rad(-20),upper=np.deg2rad(20),scaler=5)
         self.add_design_variable('ux',lower=0, upper=5000, scaler=1E-4)
         self.add_design_variable('uz',lower=0, upper=5000, scaler=1E-4)
         self.add_design_variable('dt',lower=0.1, scaler=1E0)
@@ -113,9 +113,13 @@ optimizer.solve()
 optimizer.print_results()
 
 
-print('ux: ', sim['ux'])
-print('uz: ', sim['uz'])
-print('ua: ', sim['ua'])
+#print('ux: ', sim['ux'])
+#print('uz: ', sim['uz'])
+#print('ua: ', sim['ua'])
+
+print(np.array2string(sim['ux'],separator=','))
+print(np.array2string(sim['uz'],separator=','))
+print(np.array2string(sim['ua'],separator=','))
 
 plt.show()
 

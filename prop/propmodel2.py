@@ -13,9 +13,9 @@ datacp_in = pickle.load(cpfile)
 
 
 datacp = np.zeros((6,6,6))
-for i in range(6):
-    for j in range(6):
-        for k in range(6):
+for i in range(10):
+    for j in range(10):
+        for k in range(10):
             if datacp_in[i,j,k] < 1E-2:
                 datacp[i,j,k] = 0
             else:
