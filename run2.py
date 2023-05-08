@@ -79,7 +79,7 @@ class Run(csdl.Model):
         
         
         # for the minimum energy objective:
-        self.add_design_variable('ua',lower=np.deg2rad(-30),upper=np.deg2rad(30),scaler=1E1)
+        self.add_design_variable('ua',lower=np.deg2rad(-30),upper=np.deg2rad(30),scaler=1E-1)
         self.add_design_variable('ux',lower=0, upper=5000, scaler=1E-4)
         self.add_design_variable('uz',lower=0, upper=5000, scaler=1E-4)
         self.add_design_variable('dt',lower=0.1, scaler=1E0)
