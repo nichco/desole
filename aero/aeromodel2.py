@@ -2,6 +2,8 @@ import csdl
 import python_csdl_backend
 import numpy as np
 from smt.surrogate_models import RBF
+import matplotlib.pyplot as plt
+plt.rcParams.update(plt.rcParamsDefault)
 
 
 alpha = np.deg2rad(np.array([-90,-85,-80,-75,-70,-65,-60,-55,-50,-45,-40,-35,-30,-25,-20,-16,-12,-8,-4,0,4,8,12,16,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,]))
@@ -36,6 +38,9 @@ class Aero(csdl.Model):
         self.register_output('lift', lift)
         self.register_output('drag', drag)
 
+        self.print_var(lift)
+        self.print_var(drag)
+
 
 
 class AeroExplicit(csdl.CustomExplicitOperation):
@@ -53,10 +58,12 @@ class AeroExplicit(csdl.CustomExplicitOperation):
         sm_cl.train()
         self.sm_cl = sm_cl
 
-        sm_cd = RBF(d0=0.5,print_global=False,print_solver=False,)
+        sm_cd = RBF(d0=0.3,print_global=False,print_solver=False,)
         sm_cd.set_training_values(x, cddata)
         sm_cd.train()
         self.sm_cd = sm_cd
+
+
 
 
     def define(self):

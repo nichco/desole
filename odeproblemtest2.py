@@ -26,3 +26,5 @@ class ODEProblemTest(ODEProblem):
         self.add_profile_output('drag')
         self.add_profile_output('cruise_power')
         self.add_profile_output('lift_power')
+        self.add_profile_output('du')
+        self.add_profile_output('dw')

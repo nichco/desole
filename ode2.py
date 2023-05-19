@@ -4,6 +4,7 @@ import python_csdl_backend
 from prop.propmodel import Prop
 from aero.atm import Atm
 from aero.aeromodel import Aero
+#from aero.aeromodel2 import Aero
 
 
 
@@ -42,7 +43,7 @@ class ODESystemModel(csdl.Model):
         self.add(Atm(num_nodes=n), name='Atm')
         
         # the aerodynamic model:
-        self.add(Aero(num_nodes=n, wing_area=options['wing_area']), name='Aero')
+        self.add(Aero(num_nodes=n, wing_area=options['wing_area']), name='Aero2')
         L = self.declare_variable('lift', shape=(n))
         D = self.declare_variable('drag', shape=(n))
 

@@ -70,16 +70,16 @@ class AeroExplicit(csdl.CustomExplicitOperation):
                 x[index,1] = m
                 if j == 0: 
                     cldata[index] = cl05[i]
-                    cddata[index] = cd05[i]
+                    cddata[index] = cd05[i] +0.01#+ 0.04745
                 elif j == 1: 
                     cldata[index] = cl1[i]
-                    cddata[index] = cd1[i]
+                    cddata[index] = cd1[i] +0.01#+ 0.02444
                 elif j == 2: 
                     cldata[index] = cl2[i]
-                    cddata[index] = cd2[i]
+                    cddata[index] = cd2[i] +0.01#+ 0.02085
                 elif j == 3: 
                     cldata[index] = cl3[i]
-                    cddata[index] = cd3[i]
+                    cddata[index] = cd3[i] +0.01#+ 0.01902
                 index += 1
 
         sm_cl = RBF(d0=0.3,print_global=False,print_solver=False,)
