@@ -18,8 +18,8 @@ class ODESystemModel(csdl.Model):
         
 
         # states:
-        u = self.create_input('u', shape=n)
-        w = self.create_input('w', shape=n, val=0.01)
+        vx = self.create_input('vx', shape=n)
+        vz = self.create_input('vz', shape=n, val=0.01)
         x = self.create_input('x', shape=n, val=100)
         z = self.create_input('z', shape=n, val=0)
         e = self.create_input('e', shape=n, val=0)
@@ -34,8 +34,11 @@ class ODESystemModel(csdl.Model):
         g = 9.81
 
         # compute velocity and alpha:
-        v = self.register_output('v', (u**2 + w**2)**0.5)
-        alpha = self.register_output('alpha', csdl.arctan(w/u))
+        v = self.register_output('v', (vx**2 + vz**2)**0.5)
+        gamma = csdl.arctan(vz/vx)
+        alpha = self.register_output('alpha', ua - gamma)
+
+        self.print_var(v)
 
         # the atmosphere model:
         self.register_output('h', 1*z)
@@ -48,9 +51,8 @@ class ODESystemModel(csdl.Model):
 
 
         # rotor and motor models
-        #self.register_output('cruise_vaxial', (u**2 + 1E-14)**0.5)
-        self.register_output('cruise_vaxial', 1*u)
-        self.register_output('cruise_vtan', (w**2 + 1E-14)**0.5)
+        self.register_output('cruise_vaxial', v*csdl.cos(alpha))
+        self.register_output('cruise_vtan', ((v*csdl.sin(alpha))**2 + 1E-14)**0.5)
         self.register_output('cruise_rpm', 1*ux)
         self.add(Prop(name='cruise', num_nodes=n, d=options['cruise_rotor_diameter']), name='CruiseProp', 
                  promotes=['cruise_thrust', 'cruise_power', 'cruise_rpm', 'cruise_vaxial', 'cruise_vtan', 'density'])
@@ -58,9 +60,8 @@ class ODESystemModel(csdl.Model):
         cruise_power = self.declare_variable('cruise_power', shape=(n))
 
 
-        #self.register_output('lift_vaxial', ((-w)**2 + 1E-14)**0.5)
-        self.register_output('lift_vaxial', -1*w)
-        self.register_output('lift_vtan', (u**2 + 1E-14)**0.5)
+        self.register_output('lift_vaxial', v*csdl.sin(alpha))
+        self.register_output('lift_vtan', ((v*csdl.cos(alpha))**2 + 1E-14)**0.5)
         self.register_output('lift_rpm', 1*uz)
         self.add(Prop(name='lift', num_nodes=n, d=options['lift_rotor_diameter']), name='LiftProp', 
                  promotes=['lift_thrust', 'lift_power', 'lift_rpm', 'lift_vaxial', 'lift_vtan', 'density'])
@@ -69,18 +70,18 @@ class ODESystemModel(csdl.Model):
 
         
         # system of ODE's
-        du = (tc - m*g*csdl.sin(ua) + L*csdl.sin(alpha) - D*csdl.cos(alpha))/m
-        dw = (-tl + m*g*csdl.cos(ua) - L*csdl.cos(alpha) - D*csdl.sin(alpha))/m
-        dx = u*csdl.cos(ua) + w*csdl.sin(ua)
-        dz = u*csdl.sin(ua) - w*csdl.cos(ua)
+        dvx = (tc*csdl.cos(ua) - tl*csdl.sin(ua) - D*csdl.cos(gamma) - L*csdl.sin(gamma))/m
+        dvz = (tc*csdl.sin(ua) + tl*csdl.cos(ua) - D*csdl.sin(gamma) + L*csdl.cos(gamma) - m*g)/m
+        dx = 1*vx
+        dz = 1*vz
 
         cruise_eta = 1
         lift_eta = 1
         de = 1E-4*((cruise_power/cruise_eta) + (lift_power/lift_eta))
 
         # register outputs
-        self.register_output('du', du)
-        self.register_output('dw', dw)
+        self.register_output('dvx', dvx)
+        self.register_output('dvz', dvz)
         self.register_output('dx', dx)
         self.register_output('dz', dz)
         self.register_output('de', de)
