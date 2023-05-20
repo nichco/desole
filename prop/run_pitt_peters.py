@@ -17,7 +17,7 @@ reference_point = np.array([0,0,0])
 shape = (num_nodes,num_radial,num_tangential)
 
 radius = 1.2
-chord = np.linspace(0.3,0.14,num_radial)
+chord = np.linspace(0.25,0.14,num_radial)
 twist = np.linspace(50,10,num_radial)*np.pi/180
 
 
@@ -73,7 +73,7 @@ print(sim['C_P'].flatten())
 
 
 # scripting:
-n = np.linspace(500,5000,10) # rotor speed (rpm)
+n = np.linspace(500,5000,20) # rotor speed (rpm)
 vaxial = np.linspace(-30,100,10) # axial inflow (m/s)
 vtan = np.linspace(0,100,10) # edgewise inflow (m/s)
 datact = np.zeros((len(n), len(vaxial), len(vtan)))
@@ -91,15 +91,15 @@ for k, rpm in enumerate(n):
 print(datact)
 
 
-plt.contourf(vaxial,vtan,datact[0,:,:])
+plt.contourf(vtan,vaxial,datact[0,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
-plt.contourf(vaxial,vtan,datact[1,:,:])
+plt.contourf(vtan,vaxial,datact[1,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
-plt.contourf(vaxial,vtan,datact[2,:,:])
+plt.contourf(vtan,vaxial,datact[2,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
@@ -107,11 +107,11 @@ plt.contourf(vaxial,vtan,datact[3,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
-plt.contourf(vaxial,vtan,datact[4,:,:])
+plt.contourf(vtan,vaxial,datact[4,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
-plt.contourf(vaxial,vtan,datact[5,:,:])
+plt.contourf(vtan,vaxial,datact[5,:,:])
 plt.colorbar(shrink=1)
 plt.show()
 
