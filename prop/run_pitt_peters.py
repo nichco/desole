@@ -74,7 +74,7 @@ print(sim['C_P'].flatten())
 
 # scripting:
 n = np.linspace(500,5000,20) # rotor speed (rpm)
-vaxial = np.linspace(-30,100,10) # axial inflow (m/s)
+vaxial = np.linspace(0,100,10) # axial inflow (m/s)
 vtan = np.linspace(0,100,10) # edgewise inflow (m/s)
 datact = np.zeros((len(n), len(vaxial), len(vtan)))
 datacp = np.zeros((len(n), len(vaxial), len(vtan)))
