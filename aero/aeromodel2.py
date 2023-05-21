@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 plt.rcParams.update(plt.rcParamsDefault)
 
 
-alpha = np.deg2rad(np.array([-90,-85,-80,-75,-70,-65,-60,-55,-50,-45,-40,-35,-30,-25,-20,-16,-12,-8,-4,0,4,8,12,16,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,]))
-cl1 = np.array([-0.01,-0.42,-0.75,-0.95,-1.08,-1.17,-1.25,-1.3,-1.33,-1.34,-1.32,-1.27,-1.24,-1.29,-1.28,-1.08261,-0.67929,-0.27926,0.13037,0.53477,0.92992,
-                1.2841,1.35493,1.34,1.23,1.18,1.22,1.28,1.32,1.34,1.33,1.3,1.25,1.17,1.08,0.95,0.75,0.42,0.01,])
-cd1 = np.array([1.85,1.84,1.83,1.81,1.78,1.73,1.67,1.59,1.48,1.35,1.2,0.95,0.58,0.28,0.1024,0.04765,0.02455,0.0129,0.01358,0.02516,0.0484,0.09098,0.20628,
+xt = np.deg2rad(np.array([-90,-85,-80,-75,-70,-65,-60,-55,-50,-45,-40,-35,-30,-25,-20,-16,-12,-8,-4,0,4,8,12,16,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,]))
+cldata = np.array([-0.01,-0.35,-0.65,-0.85,-1,-1.12,-1.18,-1.22,-1.235,-1.24,-1.22,-1.19,-1.2,-1.29,-1.28,-1.07869,-0.67686,-0.27838,0.12907,0.5325,0.92638,1.28286,1.35463,
+1.34,1.23,1.18,1.19,1.24,1.28,1.29,1.28,1.265,1.22,1.14,1.02,0.85,0.64,0.35,0.01,])
+cddata = np.array([1.85,1.84,1.83,1.81,1.78,1.73,1.67,1.59,1.48,1.35,1.2,0.95,0.58,0.28,0.1024,0.04765,0.02455,0.0129,0.01358,0.02516,0.0484,0.09098,0.20628,
                 0.32875,0.51,0.74,0.935,1.13,1.29,1.43,1.54,1.63,1.7,1.76,1.81,1.85,1.87,1.89,1.9,])
 
 
@@ -38,8 +38,8 @@ class Aero(csdl.Model):
         self.register_output('lift', lift)
         self.register_output('drag', drag)
 
-        self.print_var(lift)
-        self.print_var(drag)
+        #self.print_var(lift)
+        #self.print_var(drag)
 
 
 
@@ -48,20 +48,24 @@ class AeroExplicit(csdl.CustomExplicitOperation):
         self.parameters.declare('num_nodes')
 
         # create the training data:
-        x = 1*alpha
-        cldata = 1*cl1
-        cddata = 1*cd1
-
-
         sm_cl = RBF(d0=0.3,print_global=False,print_solver=False,)
-        sm_cl.set_training_values(x, cldata)
+        sm_cl.set_training_values(xt, cldata)
         sm_cl.train()
         self.sm_cl = sm_cl
 
-        sm_cd = RBF(d0=0.3,print_global=False,print_solver=False,)
-        sm_cd.set_training_values(x, cddata)
+        sm_cd = RBF(d0=0.6,print_global=False,print_solver=False,)
+        sm_cd.set_training_values(xt, cddata)
         sm_cd.train()
         self.sm_cd = sm_cd
+
+        # xe = np.deg2rad(np.linspace(-90,90,100))
+        # cl_eval = sm_cl.predict_values(xe)
+        # cd_eval = sm_cd.predict_values(xe)
+        # plt.plot(xe, cl_eval)
+        # plt.show()
+
+        # plt.plot(xe, cd_eval)
+        # plt.show()
 
 
 

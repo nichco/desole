@@ -1,9 +1,9 @@
 import csdl
 import numpy as np
 import python_csdl_backend
-from prop.propmodel import Prop
+from prop.propmodel3 import Prop
 from aero.atm import Atm
-from aero.aeromodel import Aero
+from aero.aeromodel2 import Aero
 
 
 
@@ -37,8 +37,6 @@ class ODESystemModel(csdl.Model):
         v = self.register_output('v', (vx**2 + vz**2)**0.5)
         gamma = csdl.arctan(vz/vx)
         alpha = self.register_output('alpha', ua - gamma)
-
-        self.print_var(v)
 
         # the atmosphere model:
         self.register_output('h', 1*z)
