@@ -24,8 +24,8 @@ class Run(csdl.Model):
         self.register_output('hvec', h_vec)
         
         # add dynamic inputs to the csdl model
-        ux = self.create_input('ux', val=np.ones((num))*1000)
-        uz = self.create_input('uz', val=np.ones((num))*100)
+        ux = self.create_input('ux', val=np.ones((num))*1500)
+        uz = self.create_input('uz', val=np.ones((num))*1000)
         ua = self.create_input('ua', val=np.ones((num))*0) # pitch angle (theta)
 
         # initial conditions for states
@@ -60,16 +60,18 @@ class Run(csdl.Model):
         
         cruise_power = self.declare_variable('cruise_power',shape=(num,))
         lift_power = self.declare_variable('lift_power',shape=(num,))
-        self.register_output('max_cruise_power', csdl.max(cruise_power))
-        self.register_output('max_lift_power', csdl.max(lift_power))
-
-        #self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
-        #self.add_constraint('max_lift_power', upper=133652, scaler=1E-5)
+        self.register_output('max_cruise_power', csdl.max(10*cruise_power)/10)
+        self.register_output('max_lift_power', csdl.max(10*lift_power)/10)
+        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
+        self.add_constraint('max_lift_power', upper=133652, scaler=1E-5)
 
         self.register_output('min_vx', csdl.min(100*vx)/100)
         self.register_output('min_vz', csdl.min(100*vz)/100)
         self.add_constraint('min_vx', lower=-0.01)
         self.add_constraint('min_vz', lower=-0.01)
+
+        #self.register_output('max_v', csdl.max(100*v)/100)
+        #self.add_constraint('max_v', upper=70, scaler=1E-2)
 
  
         
@@ -100,7 +102,7 @@ options['cruise_rotor_diameter'] = 2.6 # (m)
 
 
 
-num = 30
+num = 35
 ODEProblem = ODEProblemTest('RK4', 'time-marching', num_times=num, display='default', visualization='end')
 sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #sim.run()
@@ -110,7 +112,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=2000, ftol=1E-5)
+optimizer = SLSQP(prob, maxiter=10000, ftol=1E-7)
 optimizer.solve()
 optimizer.print_results()
 

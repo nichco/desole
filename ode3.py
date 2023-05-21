@@ -1,7 +1,7 @@
 import csdl
 import numpy as np
 import python_csdl_backend
-from prop.propmodel3 import Prop
+from prop.propmodel import Prop
 from aero.atm import Atm
 from aero.aeromodel2 import Aero
 
@@ -74,7 +74,7 @@ class ODESystemModel(csdl.Model):
         dz = 1*vz
 
         cruise_eta = 1
-        lift_eta = 1
+        lift_eta = 0.9
         de = 1E-4*((cruise_power/cruise_eta) + (lift_power/lift_eta))
 
         # register outputs
