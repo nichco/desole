@@ -49,16 +49,17 @@ twist = np.linspace(60, 15, num_radial)
 
 # sim.run()
 # print('C_T: ', sim['C_T'])
+# print('T: ', sim['T'])
+# exit()
 
-
-
-vx = np.linspace(0, 75, 15)
-rpm = np.linspace(800, 5000, 15)
+vx = np.linspace(0, 100, 10)
+rpm = np.linspace(500, 5000, 10)
 datact = np.zeros((len(rpm), len(vx)))
+datat = np.zeros((len(rpm), len(vx)))
 datacp = np.zeros((len(rpm), len(vx)))
 for i, n in enumerate(rpm):
     for j, v in enumerate(vx):
-        """
+        
         sim = python_csdl_backend.Simulator(BEMRunModel(
         rotor_radius=rotor_radius,
         rpm=n,
@@ -72,12 +73,12 @@ for i, n in enumerate(rpm):
         twist_distribution=twist,
         thrust_vector=thrust_vector,
         thrust_origin=thrust_origin,))
+        
         """
-
         sim = python_csdl_backend.Simulator(BILDRunModel(
         rotor_radius=rotor_radius,
         reference_chord=0.1,
-        reference_radius=rotor_radius,
+        reference_radius=rotor_radius/2,
         rpm=n,
         Vx=v,
         altitude=altitude,
@@ -87,18 +88,46 @@ for i, n in enumerate(rpm):
         airfoil_polar=airfoil_polar,
         thrust_vector=thrust_vector,
         thrust_origin=thrust_origin,))
-
+        """
         sim.run()
 
         datact[i,j] = sim['C_T'].flatten()
         datacp[i,j] = sim['C_P'].flatten()
+        datat[i,j] = sim['T'].flatten()
 
 levels = np.arange(-0.5,0.5,0.03)
 
-plt.contourf(rpm,vx,datact,)
+plt.contourf(rpm,vx,np.transpose(datact),)
 plt.colorbar(shrink=1)
 plt.show()
 
-plt.contourf(rpm,vx,datacp)
+# plt.contourf(rpm,vx,np.transpose(datacp))
+# plt.colorbar(shrink=1)
+# plt.show()
+
+plt.contourf(rpm,vx,np.transpose(datat))
 plt.colorbar(shrink=1)
 plt.show()
+
+
+td = np.zeros((len(rpm), len(vx)))
+for i, n in enumerate(rpm):
+    for j, v in enumerate(vx):
+        ct = datact[i,j]
+        ns = n/60
+        rho = 1.2
+        d = 2*rotor_radius
+        td[i,j] = ct*rho*(ns**2)*(d**4)
+
+
+plt.contourf(rpm,vx,np.transpose(td))
+plt.colorbar(shrink=1)
+plt.show()
+
+
+
+file = open('ctbem.pkl', 'wb')
+pickle.dump(datact, file)
+
+file = open('cpbem.pkl', 'wb')
+pickle.dump(datacp, file)
