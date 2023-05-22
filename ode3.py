@@ -20,7 +20,7 @@ class ODESystemModel(csdl.Model):
         # states:
         vx = self.create_input('vx', shape=n)
         vz = self.create_input('vz', shape=n, val=0.01)
-        x = self.create_input('x', shape=n, val=100)
+        x = self.create_input('x', shape=n, val=0)
         z = self.create_input('z', shape=n, val=0)
         e = self.create_input('e', shape=n, val=0)
 

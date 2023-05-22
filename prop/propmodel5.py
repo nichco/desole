@@ -201,3 +201,4 @@ if __name__ == '__main__':
     print('Power: ', sim[name + '_power'])
 
     sim.check_partials(step=1E-6, compact_print=True)
+

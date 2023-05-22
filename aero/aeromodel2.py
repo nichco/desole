@@ -75,16 +75,13 @@ class AeroExplicit(csdl.CustomExplicitOperation):
 
         # inputs:
         self.add_input('alpha', shape=n)
-        #self.add_input('mach', shape=n)
 
         # outputs: cl, cd
         self.add_output('cl', shape=n)
         self.add_output('cd', shape=n)
 
         self.declare_derivatives('cl', 'alpha')
-        #self.declare_derivatives('cl', 'mach')
         self.declare_derivatives('cd', 'alpha')
-        #self.declare_derivatives('cd', 'mach')
 
     def compute(self, inputs, outputs):
         n = self.parameters['num_nodes']
@@ -104,14 +101,10 @@ class AeroExplicit(csdl.CustomExplicitOperation):
         point[:,0] = inputs['alpha']
 
         dcl_da = self.sm_cl.predict_derivatives(point, 0)
-        #dcl_dm = self.sm_cl.predict_derivatives(point, 1)
         dcd_da = self.sm_cd.predict_derivatives(point, 0)
-        #dcd_dm = self.sm_cd.predict_derivatives(point, 1)
 
         derivatives['cl', 'alpha'] = np.diag(dcl_da.flatten())
-        #derivatives['cl', 'mach'] = np.diag(dcl_dm.flatten())
         derivatives['cd', 'alpha'] = np.diag(dcd_da.flatten())
-        #derivatives['cd', 'mach'] = np.diag(dcd_dm.flatten())
 
 
 
