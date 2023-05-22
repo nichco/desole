@@ -1,7 +1,7 @@
 import csdl
 import numpy as np
 import python_csdl_backend
-from prop.propmodel import Prop
+from prop.propmodel4 import Prop
 from aero.atm import Atm
 from aero.aeromodel2 import Aero
 

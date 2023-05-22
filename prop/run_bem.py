@@ -95,8 +95,9 @@ for i, n in enumerate(rpm):
         datacp[i,j] = sim['C_P'].flatten()
         datat[i,j] = sim['T'].flatten()
 
-levels = np.arange(-0.5,0.5,0.03)
 
+
+"""
 plt.contourf(rpm,vx,np.transpose(datact),)
 plt.colorbar(shrink=1)
 plt.show()
@@ -123,7 +124,7 @@ for i, n in enumerate(rpm):
 plt.contourf(rpm,vx,np.transpose(td))
 plt.colorbar(shrink=1)
 plt.show()
-
+"""
 
 
 file = open('ctbem.pkl', 'wb')

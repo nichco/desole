@@ -45,13 +45,14 @@ class Run(csdl.Model):
         x = self.declare_variable('x', shape=(num,))
         z = self.declare_variable('z', shape=(num,))
         e = self.declare_variable('e', shape=(num,))
+        alpha = self.declare_variable('alpha', shape=(num,))
 
         # final altitude constraint:
         self.register_output('final_z', z[-1])
         self.add_constraint('final_z', equals=300, scaler=1E-3)
 
         self.register_output('min_z', csdl.min(100*z)/100)
-        self.add_constraint('min_z', lower=-0.1)
+        self.add_constraint('min_z', lower=-0.1, scaler=1E1)
 
         # final velocity constraint:
         v = (vx**2 + vz**2)**0.5
@@ -65,10 +66,10 @@ class Run(csdl.Model):
         self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
         self.add_constraint('max_lift_power', upper=133652, scaler=1E-5)
 
-        self.register_output('min_vx', csdl.min(100*vx)/100)
-        self.register_output('min_vz', csdl.min(100*vz)/100)
-        self.add_constraint('min_vx', lower=-0.01)
-        self.add_constraint('min_vz', lower=-0.01)
+        self.register_output('min_vc', csdl.min(100*v*csdl.cos(alpha))/100)
+        self.register_output('min_vs', csdl.min(100*v*csdl.sin(alpha))/100)
+        self.add_constraint('min_vc', lower=-0.01, scaler=1E2)
+        self.add_constraint('min_vs', lower=-0.01, scaler=1E2)
 
         #self.register_output('max_v', csdl.max(100*v)/100)
         #self.add_constraint('max_v', upper=70, scaler=1E-2)
@@ -82,8 +83,8 @@ class Run(csdl.Model):
         
         # for the minimum energy objective:
         self.add_design_variable('ua', lower=np.deg2rad(-20),upper=np.deg2rad(20),scaler=6)
-        self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
+        self.add_design_variable('ux', lower=0, upper=5000, scaler=1E-3)
+        self.add_design_variable('uz', lower=0, upper=5000, scaler=1E-3)
         self.add_design_variable('dt', lower=1.5, scaler=1E0)
         self.add_objective('energy', scaler=1E-2)
 
@@ -112,7 +113,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=10000, ftol=1E-7)
+optimizer = SLSQP(prob, maxiter=10000, ftol=1E-5)
 optimizer.solve()
 optimizer.print_results()
 
