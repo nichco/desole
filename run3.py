@@ -74,7 +74,7 @@ class Run(csdl.Model):
         #self.register_output('max_v', csdl.max(100*v)/100)
         #self.add_constraint('max_v', upper=70, scaler=1E-2)
 
- 
+
         
         # compute the total energy:
         self.register_output('energy', e[-1])
