@@ -24,8 +24,8 @@ class Run(csdl.Model):
         self.register_output('hvec', h_vec)
         
         # add dynamic inputs to the csdl model
-        ux = self.create_input('ux', val=np.ones((num))*1500)
-        uz = self.create_input('uz', val=np.ones((num))*1000)
+        ux = self.create_input('ux', val=np.ones((num))*100)
+        uz = self.create_input('uz', val=np.ones((num))*100)
         ua = self.create_input('ua', val=np.ones((num))*0) # pitch angle (theta)
 
         # initial conditions for states
@@ -49,7 +49,7 @@ class Run(csdl.Model):
 
         # final altitude constraint:
         self.register_output('final_z', z[-1])
-        self.add_constraint('final_z', equals=300, scaler=1E-3)
+        self.add_constraint('final_z', equals=300, scaler=1E-2)
 
         self.register_output('min_z', csdl.min(100*z)/100)
         self.add_constraint('min_z', lower=-0.1, scaler=1E1)
@@ -57,19 +57,19 @@ class Run(csdl.Model):
         # final velocity constraint:
         v = (vx**2 + vz**2)**0.5
         self.register_output('final_v', v[-1])
-        self.add_constraint('final_v', equals=50, scaler=1E-2)
+        self.add_constraint('final_v', equals=50, scaler=1E-1)
         
         cruise_power = self.declare_variable('cruise_power',shape=(num,))
         lift_power = self.declare_variable('lift_power',shape=(num,))
-        self.register_output('max_cruise_power', csdl.max(10*cruise_power)/10)
-        self.register_output('max_lift_power', csdl.max(10*lift_power)/10)
+        self.register_output('max_cruise_power', csdl.max(cruise_power))
+        self.register_output('max_lift_power', csdl.max(lift_power))
         self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
         self.add_constraint('max_lift_power', upper=133652, scaler=1E-5)
 
-        self.register_output('min_vc', csdl.min(100*v*csdl.cos(alpha))/100)
-        self.register_output('min_vs', csdl.min(100*v*csdl.sin(alpha))/100)
-        self.add_constraint('min_vc', lower=-0.01, scaler=1E2)
-        self.add_constraint('min_vs', lower=-0.01, scaler=1E2)
+        #self.register_output('min_vc', csdl.min(100*v*csdl.cos(alpha))/100)
+        #self.register_output('min_vs', csdl.min(100*v*csdl.sin(alpha))/100)
+        #self.add_constraint('min_vc', lower=-0.01, scaler=1E2)
+        #self.add_constraint('min_vs', lower=-0.01, scaler=1E2)
 
         #self.register_output('max_v', csdl.max(100*v)/100)
         #self.add_constraint('max_v', upper=70, scaler=1E-2)
@@ -103,7 +103,7 @@ options['cruise_rotor_diameter'] = 2.6 # (m)
 
 
 
-num = 35
+num = 30
 ODEProblem = ODEProblemTest('RK4', 'time-marching', num_times=num, display='default', visualization='end')
 sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #sim.run()

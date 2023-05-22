@@ -1,7 +1,7 @@
 import csdl
 import numpy as np
 import python_csdl_backend
-from prop.propmodel4 import Prop
+from prop.propmodel5 import Prop
 from aero.atm import Atm
 from aero.aeromodel2 import Aero
 
@@ -50,7 +50,7 @@ class ODESystemModel(csdl.Model):
 
         # rotor and motor models
         self.register_output('cruise_vaxial', v*csdl.cos(alpha))
-        self.register_output('cruise_vtan', ((v*csdl.sin(alpha))**2 + 1E-14)**0.5)
+        self.register_output('cruise_vtan', v*csdl.sin(alpha))
         self.register_output('cruise_rpm', 1*ux)
         self.add(Prop(name='cruise', num_nodes=n, d=options['cruise_rotor_diameter']), name='CruiseProp', 
                  promotes=['cruise_thrust', 'cruise_power', 'cruise_rpm', 'cruise_vaxial', 'cruise_vtan', 'density'])
@@ -59,7 +59,7 @@ class ODESystemModel(csdl.Model):
 
 
         self.register_output('lift_vaxial', v*csdl.sin(alpha))
-        self.register_output('lift_vtan', ((v*csdl.cos(alpha))**2 + 1E-14)**0.5)
+        self.register_output('lift_vtan', v*csdl.cos(alpha))
         self.register_output('lift_rpm', 1*uz)
         self.add(Prop(name='lift', num_nodes=n, d=options['lift_rotor_diameter']), name='LiftProp', 
                  promotes=['lift_thrust', 'lift_power', 'lift_rpm', 'lift_vaxial', 'lift_vtan', 'density'])
@@ -74,7 +74,7 @@ class ODESystemModel(csdl.Model):
         dz = 1*vz
 
         cruise_eta = 1
-        lift_eta = 0.9
+        lift_eta = 1
         de = 1E-4*((cruise_power/cruise_eta) + (lift_power/lift_eta))
 
         # register outputs
