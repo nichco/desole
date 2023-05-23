@@ -3,7 +3,7 @@ import numpy as np
 import python_csdl_backend
 from prop.propmodel5 import Prop
 from aero.atm import Atm
-from aero.aeromodel2 import Aero
+from aero.aeromodel3 import Aero
 
 
 

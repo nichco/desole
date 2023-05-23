@@ -30,3 +30,5 @@ class ODEProblemTest(ODEProblem):
         self.add_profile_output('lift_power')
         self.add_profile_output('cruise_vaxial')
         self.add_profile_output('cruise_vtan')
+        self.add_profile_output('dvx')
+        self.add_profile_output('dvz')

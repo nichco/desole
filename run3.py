@@ -46,6 +46,8 @@ class Run(csdl.Model):
         z = self.declare_variable('z', shape=(num,))
         e = self.declare_variable('e', shape=(num,))
         alpha = self.declare_variable('alpha', shape=(num,))
+        dvx = self.declare_variable('dvx', shape=(num,))
+        dvz = self.declare_variable('dvz', shape=(num,))
 
         # final altitude constraint:
         self.register_output('final_z', z[-1])
@@ -61,20 +63,24 @@ class Run(csdl.Model):
         
         cruise_power = self.declare_variable('cruise_power',shape=(num,))
         lift_power = self.declare_variable('lift_power',shape=(num,))
-        self.register_output('max_cruise_power', csdl.max(cruise_power))
-        self.register_output('max_lift_power', csdl.max(lift_power))
-        #self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
-        #self.add_constraint('max_lift_power', upper=133652, scaler=1E-5)
+        self.register_output('max_cruise_power', csdl.max(0.0001*cruise_power)/0.0001)
+        self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
+        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
+        self.add_constraint('max_lift_power', upper=233652, scaler=1E-5) # 133652
 
         #self.register_output('min_vc', csdl.min(100*v*csdl.cos(alpha))/100)
         #self.register_output('min_vs', csdl.min(100*v*csdl.sin(alpha))/100)
         #self.add_constraint('min_vc', lower=-0.01, scaler=1E2)
         #self.add_constraint('min_vs', lower=-0.01, scaler=1E2)
 
-        self.register_output('max_vx', csdl.max(100*vx)/100)
-        self.register_output('max_vz', csdl.max(100*vz)/100)
-        self.add_constraint('max_vx', upper=75, scaler=1E-2)
-        self.add_constraint('max_vz', upper=75, scaler=1E-2)
+        #self.register_output('max_vx', csdl.max(100*vx)/100)
+        #self.register_output('max_vz', csdl.max(100*vz)/100)
+        #self.add_constraint('max_vx', upper=75, scaler=1E-2)
+        #self.add_constraint('max_vz', upper=75, scaler=1E-2)
+        
+        a = (dvx**2 + dvz**2)**0.5
+        self.register_output('max_g', csdl.max(10*(a**2 + 1E-14)**0.5)/(9.81*10))
+        #self.add_constraint('max_g', upper=1.0, scaler=1E1)
 
 
         
@@ -105,8 +111,8 @@ options['cruise_rotor_diameter'] = 2.6 # (m)
 
 
 
-num = 30
-ODEProblem = ODEProblemTest('GaussLegendre2', 'time-marching', num_times=num, display='default', visualization='end')
+num = 40
+ODEProblem = ODEProblemTest('GaussLegendre4', 'time-marching', num_times=num, display='default', visualization='end')
 sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #sim.run()
 #plt.show()
