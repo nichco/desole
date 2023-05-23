@@ -79,15 +79,15 @@ class Run(csdl.Model):
         #self.add_constraint('max_vx', upper=75, scaler=1E-2)
         #self.add_constraint('max_vz', upper=75, scaler=1E-2)
         
-        a = self.register_output('a', (dvx**2 + dvz**2)**0.5)
-        self.register_output('max_g', csdl.max(10*(a**2 + 1E-14)**0.5)/(9.81*10))
-        #self.add_constraint('max_g', upper=1.0, scaler=1E1)
+        ag = self.register_output('ag', ((dvx**2 + dvz**2)**0.5)/9.81)
+        self.register_output('max_g', csdl.max(10*ag)/10)
+        self.add_constraint('max_g', upper=1.0, scaler=1E0)
 
         self.register_output('final_gamma', gamma[-1])
         self.add_constraint('final_gamma', equals=0,)
 
         self.register_output('max_x', csdl.max(x))
-        self.add_constraint('max_x', upper=5000, scaler=1E-3)
+        self.add_constraint('max_x', upper=4000, scaler=1E-3)
 
 
         
@@ -154,7 +154,7 @@ print(np.array2string(sim['ux'],separator=','))
 print(np.array2string(sim['uz'],separator=','))
 print(np.array2string(sim['ua'],separator=','))
 
-print(sim['a'])
+print(sim['ag'])
 
 plt.show()
 
