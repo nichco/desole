@@ -48,6 +48,7 @@ class Run(csdl.Model):
         alpha = self.declare_variable('alpha', shape=(num,))
         dvx = self.declare_variable('dvx', shape=(num,))
         dvz = self.declare_variable('dvz', shape=(num,))
+        gamma = self.declare_variable('gamma', shape=(num,))
 
         # final altitude constraint:
         self.register_output('final_z', z[-1])
@@ -66,7 +67,7 @@ class Run(csdl.Model):
         self.register_output('max_cruise_power', csdl.max(0.0001*cruise_power)/0.0001)
         self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
         self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
-        self.add_constraint('max_lift_power', upper=233652, scaler=1E-5) # 133652
+        self.add_constraint('max_lift_power', upper=200000, scaler=1E-5) # 133652
 
         #self.register_output('min_vc', csdl.min(100*v*csdl.cos(alpha))/100)
         #self.register_output('min_vs', csdl.min(100*v*csdl.sin(alpha))/100)
@@ -78,9 +79,15 @@ class Run(csdl.Model):
         #self.add_constraint('max_vx', upper=75, scaler=1E-2)
         #self.add_constraint('max_vz', upper=75, scaler=1E-2)
         
-        a = (dvx**2 + dvz**2)**0.5
+        a = self.register_output('a', (dvx**2 + dvz**2)**0.5)
         self.register_output('max_g', csdl.max(10*(a**2 + 1E-14)**0.5)/(9.81*10))
         #self.add_constraint('max_g', upper=1.0, scaler=1E1)
+
+        self.register_output('final_gamma', gamma[-1])
+        self.add_constraint('final_gamma', equals=0,)
+
+        self.register_output('max_x', csdl.max(x))
+        self.add_constraint('max_x', upper=5000, scaler=1E-3)
 
 
         
@@ -134,7 +141,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #exit()
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=10000, ftol=1E-5)
+optimizer = SLSQP(prob, maxiter=10000, ftol=1E-6)
 optimizer.solve()
 optimizer.print_results()
 
@@ -146,6 +153,8 @@ print(sim['dt'])
 print(np.array2string(sim['ux'],separator=','))
 print(np.array2string(sim['uz'],separator=','))
 print(np.array2string(sim['ua'],separator=','))
+
+print(sim['a'])
 
 plt.show()
 
