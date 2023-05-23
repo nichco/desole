@@ -68,15 +68,13 @@ class ODESystemModel(csdl.Model):
 
         
         # system of ODE's
-        #uabs = (ua**2 + 1E-12)**0.5
-        uabs = 1*ua
-        dvx = (tc*csdl.cos(uabs) - tl*csdl.sin(uabs) - D*csdl.cos(gamma) - L*csdl.sin(gamma))/m
-        dvz = (tc*csdl.sin(uabs) + tl*csdl.cos(uabs) - D*csdl.sin(gamma) + L*csdl.cos(gamma) - m*g)/m
+        dvx = (tc*csdl.cos(ua) - tl*csdl.sin(ua) - D*csdl.cos(gamma) - L*csdl.sin(gamma))/m
+        dvz = (tc*csdl.sin(ua) + tl*csdl.cos(ua) - D*csdl.sin(gamma) + L*csdl.cos(gamma) - m*g)/m
         dx = 1*vx
         dz = 1*vz
 
-        self.print_var(L)
-        self.print_var(D)
+        #self.print_var(L)
+        #self.print_var(D)
 
         cruise_eta = 1
         lift_eta = 1
