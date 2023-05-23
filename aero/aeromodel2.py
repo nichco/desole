@@ -12,7 +12,25 @@ cldata = np.array([-0.01,-0.35,-0.65,-0.85,-1,-1.12,-1.18,-1.22,-1.235,-1.24,-1.
 cddata = np.array([1.85,1.84,1.83,1.81,1.78,1.73,1.67,1.59,1.48,1.35,1.2,0.95,0.58,0.28,0.1024,0.04765,0.02455,0.0129,0.01358,0.02516,0.0484,0.09098,0.20628,
                 0.32875,0.51,0.74,0.935,1.13,1.29,1.43,1.54,1.63,1.7,1.76,1.81,1.85,1.87,1.89,1.9,])
 
+# create the training data:
+sm_cl = RBF(d0=0.3,print_global=False,print_solver=False,)
+sm_cl.set_training_values(xt, cldata)
+sm_cl.train()
+#self.sm_cl = sm_cl
 
+sm_cd = RBF(d0=0.6,print_global=False,print_solver=False,)
+sm_cd.set_training_values(xt, cddata)
+sm_cd.train()
+#self.sm_cd = sm_cd
+
+# xe = np.deg2rad(np.linspace(-90,90,100))
+# cl_eval = sm_cl.predict_values(xe)
+# cd_eval = sm_cd.predict_values(xe)
+# plt.plot(xe, cl_eval)
+# plt.show()
+
+# plt.plot(xe, cd_eval)
+# plt.show()
 
 
 class Aero(csdl.Model):
@@ -25,7 +43,7 @@ class Aero(csdl.Model):
         s = self.parameters['wing_area']
 
         alpha = self.declare_variable('alpha', shape=(num), val=0.01)
-        v = self.declare_variable('v', shape=num)
+        v = self.declare_variable('v', shape=(num))
         rho = self.declare_variable('density', shape=(num), val=1.225)
 
         # custom operation insertion:
@@ -48,15 +66,15 @@ class AeroExplicit(csdl.CustomExplicitOperation):
         self.parameters.declare('num_nodes')
 
         # create the training data:
-        sm_cl = RBF(d0=0.3,print_global=False,print_solver=False,)
-        sm_cl.set_training_values(xt, cldata)
-        sm_cl.train()
-        self.sm_cl = sm_cl
+        # sm_cl = RBF(d0=0.3,print_global=False,print_solver=False,)
+        # sm_cl.set_training_values(xt, cldata)
+        # sm_cl.train()
+        # self.sm_cl = sm_cl
 
-        sm_cd = RBF(d0=0.6,print_global=False,print_solver=False,)
-        sm_cd.set_training_values(xt, cddata)
-        sm_cd.train()
-        self.sm_cd = sm_cd
+        # sm_cd = RBF(d0=0.6,print_global=False,print_solver=False,)
+        # sm_cd.set_training_values(xt, cddata)
+        # sm_cd.train()
+        # self.sm_cd = sm_cd
 
         # xe = np.deg2rad(np.linspace(-90,90,100))
         # cl_eval = sm_cl.predict_values(xe)
@@ -66,8 +84,6 @@ class AeroExplicit(csdl.CustomExplicitOperation):
 
         # plt.plot(xe, cd_eval)
         # plt.show()
-
-
 
 
     def define(self):
@@ -88,8 +104,8 @@ class AeroExplicit(csdl.CustomExplicitOperation):
 
         point = np.zeros([n, 1])
         point[:,0] = inputs['alpha']
-        cl = self.sm_cl.predict_values(point)
-        cd = self.sm_cd.predict_values(point)
+        cl = sm_cl.predict_values(point)
+        cd = sm_cd.predict_values(point)
 
         outputs['cl'] = 1*cl
         outputs['cd'] = 1*cd
@@ -100,8 +116,8 @@ class AeroExplicit(csdl.CustomExplicitOperation):
         point = np.zeros([n, 1])
         point[:,0] = inputs['alpha']
 
-        dcl_da = self.sm_cl.predict_derivatives(point, 0)
-        dcd_da = self.sm_cd.predict_derivatives(point, 0)
+        dcl_da = sm_cl.predict_derivatives(point, 0)
+        dcd_da = sm_cd.predict_derivatives(point, 0)
 
         derivatives['cl', 'alpha'] = np.diag(dcl_da.flatten())
         derivatives['cd', 'alpha'] = np.diag(dcd_da.flatten())

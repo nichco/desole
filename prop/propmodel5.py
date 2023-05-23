@@ -139,9 +139,15 @@ class PropExplicit(csdl.CustomExplicitOperation):
         n = self.parameters['num_nodes']
 
         # surrogate model interpolation
-        # point = np.array([[inputs[name+'vAxial'], inputs[name+'vTan']]]).reshape(1,2)
-        # ct = sm_ct.predict_values(point)
-        # cp = sm_cp.predict_values(point)
+
+        # va = np.zeros((n))
+        # vt = np.zeros((n))
+        # for i in range(n):
+        #     if inputs['vAxial'][i] > 100: va[i] = 100
+        #     else: va[i] = inputs['vAxial'][i]
+        #     if inputs['vTan'][i] > 100: vt[i] = 100
+        #     else: vt[i] = inputs['vTan'][i]
+
         ct = np.zeros((n))
         cp = np.zeros((n))
         for i in range(n):
@@ -155,20 +161,16 @@ class PropExplicit(csdl.CustomExplicitOperation):
 
     def compute_derivatives(self, inputs, derivatives):
         n = self.parameters['num_nodes']
-        """
-        # compute derivatives
-        point = np.array([[inputs[name+'vAxial'], inputs[name+'vTan']]]).reshape(1,2)
-        dct_dvaxial = sm_ct.predict_derivatives(point, 0)
-        dct_dvtan = sm_ct.predict_derivatives(point, 0)
-        dcp_dvaxial = sm_cp.predict_derivatives(point, 0)
-        dcp_dvtan = sm_cp.predict_derivatives(point, 0)
 
-        # assign derivatives
-        derivatives[name+'ct', name+'vAxial'] = dct_dvaxial
-        derivatives[name+'ct', name+'vTan'] = dct_dvtan
-        derivatives[name+'cp', name+'vAxial'] = dcp_dvaxial
-        derivatives[name+'cp', name+'vTan'] = dcp_dvtan
-        """
+        # va = np.zeros((n))
+        # vt = np.zeros((n))
+        # for i in range(n):
+        #     if inputs['vAxial'][i] > 100: va[i] = 100
+        #     else: va[i] = inputs['vAxial'][i]
+        #     if inputs['vTan'][i] > 100: vt[i] = 100
+        #     else: vt[i] = inputs['vTan'][i]
+        
+
         dct_dvaxial = np.zeros((n))
         dct_dvtan = np.zeros((n))
         dcp_dvaxial = np.zeros((n))

@@ -10,7 +10,7 @@ class Atm(csdl.Model):
     def define(self):
         n = self.parameters['num_nodes']
         
-        h = self.declare_variable('h', shape=n)
+        z = self.declare_variable('z', shape=n)
         v = self.declare_variable('v', shape=n)
         
         g = 9.806 # m/(s^2)
@@ -20,7 +20,7 @@ class Atm(csdl.Model):
         rhoS = 1.225 # kg/m^3 at sea level
         R = 287 # J/(Kg-K) gas constant
         
-        temperature = Ts + a*h
+        temperature = Ts + a*z
         pressure = Ps*((temperature/Ts)**((-g)/(a*R)))
         density = rhoS*((temperature/Ts)**(-((g/(a*R)) + 1)))
 

@@ -3,7 +3,7 @@ import numpy as np
 import python_csdl_backend
 from prop.propmodel5 import Prop
 from aero.atm import Atm
-from aero.aeromodel2 import Aero
+from aero.aeromodel3 import Aero
 
 
 
@@ -35,11 +35,11 @@ class ODESystemModel(csdl.Model):
 
         # compute velocity and alpha:
         v = self.register_output('v', (vx**2 + vz**2)**0.5)
-        gamma = csdl.arctan(vz/vx)
+        #self.print_var(v)
+        gamma = self.register_output('gamma', csdl.arctan(vz/vx))
         alpha = self.register_output('alpha', ua - gamma)
 
         # the atmosphere model:
-        self.register_output('h', 1*z)
         self.add(Atm(num_nodes=n), name='Atm')
         
         # the aerodynamic model:
@@ -68,10 +68,15 @@ class ODESystemModel(csdl.Model):
 
         
         # system of ODE's
-        dvx = (tc*csdl.cos(ua) - tl*csdl.sin(ua) - D*csdl.cos(gamma) - L*csdl.sin(gamma))/m
-        dvz = (tc*csdl.sin(ua) + tl*csdl.cos(ua) - D*csdl.sin(gamma) + L*csdl.cos(gamma) - m*g)/m
+        #uabs = (ua**2 + 1E-12)**0.5
+        uabs = 1*ua
+        dvx = (tc*csdl.cos(uabs) - tl*csdl.sin(uabs) - D*csdl.cos(gamma) - L*csdl.sin(gamma))/m
+        dvz = (tc*csdl.sin(uabs) + tl*csdl.cos(uabs) - D*csdl.sin(gamma) + L*csdl.cos(gamma) - m*g)/m
         dx = 1*vx
         dz = 1*vz
+
+        self.print_var(tc)
+        self.print_var(tl)
 
         cruise_eta = 1
         lift_eta = 1
