@@ -75,8 +75,8 @@ class ODESystemModel(csdl.Model):
         dx = 1*vx
         dz = 1*vz
 
-        self.print_var(tc)
-        self.print_var(tl)
+        self.print_var(L)
+        self.print_var(D)
 
         cruise_eta = 1
         lift_eta = 1
