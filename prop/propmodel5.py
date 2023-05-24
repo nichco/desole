@@ -105,11 +105,13 @@ class Prop(csdl.Model):
         ct, cp = csdl.custom(vAxial, vTan, op=PropExplicit(num_nodes=num))
         C_T = self.register_output(name + '_C_T', 1*ct)
         C_P = self.register_output(name + '_C_P', 1*cp)
+        C_Q = C_P/(2*np.pi)
 
         rho = self.declare_variable('density', shape=(num), val=1.225)
         n = rpm/60
         self.register_output(name + '_thrust', C_T*rho*(n**2)*(d**4))
         self.register_output(name + '_power', C_P*rho*(n**3)*(d**5))
+        self.register_output(name + '_torque', C_Q*rho*(n**2)*(d**5))
 
 
 

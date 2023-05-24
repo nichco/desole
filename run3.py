@@ -87,7 +87,7 @@ class Run(csdl.Model):
         self.add_constraint('final_gamma', equals=0,)
 
         self.register_output('max_x', csdl.max(x))
-        self.add_constraint('max_x', upper=4000, scaler=1E-3)
+        self.add_constraint('max_x', upper=3000, scaler=1E-3)
 
 
         
@@ -100,7 +100,7 @@ class Run(csdl.Model):
         self.add_design_variable('ua', lower=np.deg2rad(-20), upper=np.deg2rad(20), scaler=6)
         self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
         self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('dt', lower=1.5, scaler=1E0)
+        self.add_design_variable('dt', lower=1.0, scaler=1E0)
         self.add_objective('energy', scaler=1E-2)
 
 

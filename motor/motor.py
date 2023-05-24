@@ -1,8 +1,7 @@
 import numpy as np
 from smt.surrogate_models import RMTB
 import matplotlib.pyplot as plt
-plt.rcParams["font.family"] = "Times New Roman"
-plt.rcParams.update({'font.size': 12})
+plt.rcParams.update(plt.rcParamsDefault)
 
 d = 30
 qvec = np.zeros((d*d))
