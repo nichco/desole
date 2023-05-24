@@ -67,7 +67,7 @@ class Run(csdl.Model):
         self.register_output('max_cruise_power', csdl.max(0.0001*cruise_power)/0.0001)
         self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
         self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
-        self.add_constraint('max_lift_power', upper=200000, scaler=1E-5) # 133652
+        self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
 
         #self.register_output('min_vc', csdl.min(100*v*csdl.cos(alpha))/100)
         #self.register_output('min_vs', csdl.min(100*v*csdl.sin(alpha))/100)
