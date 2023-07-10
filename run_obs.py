@@ -26,11 +26,11 @@ class Run(csdl.Model):
         
         # add dynamic inputs to the csdl model
         ux = self.create_input('ux', val=np.ones((num))*1000)
-        uz = self.create_input('uz', val=np.ones((num))*1000)
+        uz = self.create_input('uz', val=np.ones((num))*1200)
         ua = self.create_input('ua', val=np.ones((num))*0.1) # pitch angle (theta)
 
         # initial conditions for states
-        self.create_input('vx_0', 0.1)
+        self.create_input('vx_0', 0.01)
         self.create_input('vz_0', 0)
         self.create_input('x_0', 0)
         self.create_input('z_0', 0)
@@ -69,6 +69,7 @@ class Run(csdl.Model):
         self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
         self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
         self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
+        #self.add_constraint('lift_power', upper=170000, scaler=1E-5)
         
         ag = self.register_output('ag', ((dvx**2 + dvz**2)**0.5)/9.81)
         self.register_output('max_g', csdl.max(10*ag)/10)
@@ -78,15 +79,16 @@ class Run(csdl.Model):
         self.add_constraint('final_gamma', equals=0,)
 
         self.register_output('max_x', csdl.max(x))
-        self.add_constraint('max_x', upper=3000, scaler=1E-3)
+        self.add_constraint('max_x', upper=4000, scaler=1E-3)
 
 
         eps = 1E-1
         self.add(Obs(num_nodes=num), name='Obs')
         obsi = self.declare_variable('obsi', shape=(num))
-        obs_res = z - (obsi - eps)
-        self.register_output('min_obs_res', csdl.min(100*obs_res)/100)
-        self.add_constraint('min_obs_res', lower=0)
+        obs_res = self.register_output('obs_res', z - (obsi - eps))
+        self.register_output('min_obs_res', csdl.min(10*obs_res)/10)
+        self.add_constraint('min_obs_res', lower=0, scaler=1E2)
+        #self.add_constraint('obs_res', lower=0, scaler=1E1)
 
 
         
@@ -109,7 +111,7 @@ class Run(csdl.Model):
 
 
 options = {}
-options['dt'] = 2
+options['dt'] = 1.5
 options['mass'] = 3000 # (kg)
 options['wing_area'] = 19.6 # (m^2)
 options['lift_rotor_diameter'] = 2.4 # (m)
