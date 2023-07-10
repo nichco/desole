@@ -5,6 +5,7 @@ from prop.propmodel5 import Prop
 from aero.atm import Atm
 from aero.aeromodel3 import Aero
 from motor.motormodel import Motor
+from mom import Prop
 
 
 
