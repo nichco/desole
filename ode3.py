@@ -1,10 +1,10 @@
 import csdl
 import numpy as np
 import python_csdl_backend
-from prop.propmodel5 import Prop
+# from prop.propmodel5 import Prop
 from aero.atm import Atm
 from aero.aeromodel3 import Aero
-from motor.motormodel import Motor
+# from motor.motormodel import Motor
 from mom import Prop
 
 
@@ -50,31 +50,21 @@ class ODESystemModel(csdl.Model):
         D = self.declare_variable('drag', shape=(n))
 
 
-        # rotor and motor models
+        # rotor models
         self.register_output('cruise_vaxial', v*csdl.cos(alpha))
-        self.register_output('cruise_vtan', (v*csdl.sin(alpha)**2 + 1E-12)**0.5)
-        self.register_output('cruise_rpm', 1*ux)
-        self.add(Prop(name='cruise', num_nodes=n, d=options['cruise_rotor_diameter']), name='CruiseProp', 
-                 promotes=['cruise_thrust', 'cruise_power', 'cruise_rpm', 'cruise_vaxial', 'cruise_vtan', 'density', 'cruise_torque'])
-        tc = cruise_thrust = self.declare_variable('cruise_thrust', shape=(n))
-        cruise_power = self.declare_variable('cruise_power', shape=(n))
-
-        self.register_output('cruisem', 1*ux)
-        self.add(Motor(num_nodes=n, name='cruise'), name='CruiseMotor')
-        cruise_eta = self.declare_variable('cruise_eta', shape=(n))
+        self.register_output('cruise_power', 1*ux)
+        self.add(Prop(name='cruise',d=options['cruise_rotor_diameter'],num_nodes=n), name='CruiseProp',
+                 promotes=['cruise_thrust', 'cruise_power', 'density', 'cruise_vaxial'])
+        tc = self.declare_variable('cruise_thrust', shape=(n))
+        cruise_power = 1*ux
 
 
         self.register_output('lift_vaxial', v*csdl.sin(alpha))
-        self.register_output('lift_vtan', (v*csdl.cos(alpha)**2 + 1E-12)**0.5)
-        self.register_output('lift_rpm', 1*uz)
-        self.add(Prop(name='lift', num_nodes=n, d=options['lift_rotor_diameter']), name='LiftProp', 
-                 promotes=['lift_thrust', 'lift_power', 'lift_rpm', 'lift_vaxial', 'lift_vtan', 'density', 'lift_torque'])
-        tl = lift_thrust = 8*self.declare_variable('lift_thrust', shape=(n))
-        lift_power = 8*self.declare_variable('lift_power', shape=(n))
-
-        self.register_output('liftm', 1*uz)
-        self.add(Motor(num_nodes=n, name='lift'), name='LiftMotor')
-        lift_eta = self.declare_variable('lift_eta', shape=(n))
+        self.register_output('lift_power', 1*uz)
+        self.add(Prop(name='lift', d=options['lift_rotor_diameter'],num_nodes=n), name='LiftProp', 
+                 promotes=['lift_thrust', 'lift_power', 'lift_vaxial', 'density'])
+        tl = 8*self.declare_variable('lift_thrust', shape=(n))
+        lift_power = 1*uz
 
         
         # system of ODE's
@@ -83,9 +73,8 @@ class ODESystemModel(csdl.Model):
         dx = 1*vx
         dz = 1*vz
 
-        #cruise_eta = 1
-        #lift_eta = 1
-        de = 1E-4*((cruise_power/cruise_eta) + (lift_power/lift_eta))
+
+        de = 1E-4*(cruise_power + lift_power)
 
         # register outputs
         self.register_output('dvx', dvx)
