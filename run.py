@@ -62,11 +62,11 @@ class Run(csdl.Model):
         self.register_output('final_v', v[-1])
         self.add_constraint('final_v', equals=50, scaler=1E-1)
         
-        #cruise_power = self.declare_variable('cruise_power',shape=(num,))
+        cruise_power = self.declare_variable('cruise_power',shape=(num,))
         #lift_power = self.declare_variable('lift_power',shape=(num,))
-        #self.register_output('max_cruise_power', csdl.max(0.0001*cruise_power)/0.0001)
+        self.register_output('max_cruise_power', csdl.max(0.0001*cruise_power)/0.0001)
         #self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
-        #self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
+        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
         #self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
         
         #ag = self.register_output('ag', ((dvx**2 + dvz**2)**0.5)/9.81)
@@ -77,16 +77,16 @@ class Run(csdl.Model):
         self.add_constraint('final_gamma', equals=0,)
 
         self.register_output('max_x', csdl.max(x))
-        self.add_constraint('max_x', upper=3000, scaler=1E-3)
+        self.add_constraint('max_x', upper=2000, scaler=1E-3)
 
 
         cruise_vaxial = self.declare_variable('cruise_vaxial', shape=(num,))
         self.register_output('min_cruise_vaxial', csdl.min(10*cruise_vaxial)/10)
-        self.add_constraint('min_cruise_vaxial', lower=-0.1, scaler=10)
+        #self.add_constraint('min_cruise_vaxial', lower=-0.1, scaler=10)
 
         lift_vaxial = self.declare_variable('lift_vaxial', shape=(num,))
         self.register_output('min_lift_vaxial', csdl.min(10*lift_vaxial)/10)
-        self.add_constraint('min_lift_vaxial', lower=-0.1, scaler=10)
+        #self.add_constraint('min_lift_vaxial', lower=-0.1, scaler=10)
 
 
         

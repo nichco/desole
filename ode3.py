@@ -64,7 +64,7 @@ class ODESystemModel(csdl.Model):
         self.add(Prop(name='lift', d=options['lift_rotor_diameter'],num_nodes=n), name='LiftProp', 
                  promotes=['lift_thrust', 'lift_power', 'lift_vaxial', 'density'])
         tl = 8*self.declare_variable('lift_thrust', shape=(n))
-        lift_power = 1*uz
+        lift_power = 8*uz
 
         
         # system of ODE's
