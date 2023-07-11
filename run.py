@@ -63,11 +63,11 @@ class Run(csdl.Model):
         self.add_constraint('final_v', equals=50, scaler=1E-1)
         
         cruise_power = self.declare_variable('cruise_power',shape=(num,))
-        #lift_power = self.declare_variable('lift_power',shape=(num,))
+        lift_power = self.declare_variable('lift_power',shape=(num,))
         self.register_output('max_cruise_power', csdl.max(0.0001*cruise_power)/0.0001)
-        #self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
+        self.register_output('max_lift_power', csdl.max(0.0001*lift_power)/0.0001)
         self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
-        #self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
+        self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
         
         #ag = self.register_output('ag', ((dvx**2 + dvz**2)**0.5)/9.81)
         #self.register_output('max_g', csdl.max(10*ag)/10)
@@ -117,7 +117,7 @@ options['cruise_rotor_diameter'] = 2.6 # (m)
 
 
 
-num = 30
+num = 40
 ODEProblem = ODEProblemTest('RK4', 'time-marching', num_times=num, display='default', visualization='end')
 sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #sim.run()

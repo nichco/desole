@@ -24,9 +24,9 @@ class ImplicitOp(csdl.Model):
         T = self.declare_variable('T', shape=(n))
         P = self.declare_variable(name + '_power', shape=(n))
 
-        res = 0.5*T*V*(((T/(0.5*rho*V**2*A)) + 1)**(0.5) + 1) - P
+        #res = 0.5*T*V*(((T/(0.5*rho*V**2*A)) + 1)**(0.5) + 1) - P
 
-        #res = T*V + T*((-V/2) + (((V**2)/4) + (T/(2*rho*A)))**0.5) - P # Chauhan and Martins
+        res = T*V + T*((-V/2) + (((V**2)/4) + (T/(2*rho*A)))**0.5) - P # Chauhan and Martins
         self.register_output('res', res)
 
 
