@@ -24,8 +24,8 @@ class Run(csdl.Model):
         self.register_output('hvec', h_vec)
         
         # add dynamic inputs to the csdl model
-        ux = self.create_input('ux', val=np.ones((num))*1000)
-        uz = self.create_input('uz', val=np.ones((num))*1000)
+        ux = self.create_input('ux', val=np.ones((num))*1000) # 1000
+        uz = self.create_input('uz', val=np.ones((num))*1000) # 1000
         ua = self.create_input('ua', val=np.ones((num))*0.1) # pitch angle (theta)
 
         # initial conditions for states
@@ -57,8 +57,8 @@ class Run(csdl.Model):
         # self.register_output('min_z', csdl.min(100*z)/100)
         # self.add_constraint('min_z', lower=-0.1, scaler=1E2)
         min_z = self.register_output('min_z', csdl.min(10*z)/10)
-        self.add_constraint('min_z', lower=299.9, scaler=1E-2)
-        self.print_var(min_z)
+        #self.add_constraint('min_z', lower=299.9, scaler=1E-2)
+        #self.print_var(min_z)
 
         # final velocity constraint:
         v = self.register_output('v', (vx**2 + vz**2)**0.5)
@@ -77,10 +77,10 @@ class Run(csdl.Model):
         # self.print_var(max_lift_power)
         
         ag = self.register_output('ag', ((dvx**2 + dvz**2)**0.5)/9.81)
-        self.print_var(ag)
+        # self.print_var(ag)
         max_g = self.register_output('max_g', csdl.max(10*ag)/10)
         self.print_var(max_g)
-        self.add_constraint('max_g', upper=0.5, scaler=1E1)
+        self.add_constraint('max_g', upper=1.0, scaler=1E1)
 
         self.register_output('final_gamma', gamma[-1])
         self.add_constraint('final_gamma', equals=0,)
@@ -99,7 +99,7 @@ class Run(csdl.Model):
         self.add_design_variable('ua', lower=np.deg2rad(-20), upper=np.deg2rad(20), scaler=6)
         self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
         self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('dt', lower=0.25, scaler=1E1)
+        self.add_design_variable('dt', lower=0.25, scaler=1E1) # 1E1
         self.add_objective('energy', scaler=1E-3)
 
 
@@ -140,7 +140,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #exit()
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=2000, ftol=1E-8)
+optimizer = SLSQP(prob, maxiter=3000, ftol=1E-6)
 optimizer.solve()
 optimizer.print_results()
 
@@ -152,6 +152,10 @@ print(sim['dt'])
 print(np.array2string(sim['ux'],separator=','))
 print(np.array2string(sim['uz'],separator=','))
 print(np.array2string(sim['ua'],separator=','))
+
+print(np.array2string(sim['x'],separator=','))
+print(np.array2string(sim['z'],separator=','))
+print(np.array2string(sim['v'],separator=','))
 
 print(sim['ag'])
 
