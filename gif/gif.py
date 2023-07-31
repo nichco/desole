@@ -5,7 +5,7 @@ from svgpath2mpl import parse_path
 import numpy as np
 import imageio
 
-
+plt.rcParams["font.family"] = "Times New Roman"
 
 
 path, attributes = svg2paths('black4.svg')
@@ -14,28 +14,29 @@ marker.vertices -= marker.vertices.mean(axis=0)
 marker = marker.transformed(mpl.transforms.Affine2D().scale(-1,1))
 
 
-def create_frame(x, y, a, t, s, figsize, xlim, ylim, xlabel, ylabel, title, fontsize):
+def create_frame(x, y, a, i, s, figsize, xlim, ylim, xlabel, ylabel, title, fontsize, marker_color):
     
     fig = plt.figure(figsize=figsize)
     plt.xlim(xlim)
     plt.ylim(ylim)
     
-    new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(a))
+    new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + a))
     
-    plt.scatter(x, y, marker=new_marker, s=s)
+    plt.plot(x[0:i], y[0:i], c=marker_color, alpha=0.4, linewidth=3)
+    plt.scatter(x[i], y[i], marker=new_marker, s=s, c=marker_color)
     plt.xlabel(xlabel, fontsize=fontsize)
     plt.ylabel(ylabel, fontsize=fontsize)
     plt.title(title, fontsize=fontsize)
     
-    plt.savefig(f'./img/img_{t}.png', transparent=False,  facecolor='white')
+    plt.savefig(f'img_{i}.png', transparent=True, dpi=300, facecolor='white')
     
     plt.close()
 
 
 def combine_frames(time):
     frames = []
-    for t in time:
-        image = imageio.v2.imread(f'./img/img_{t}.png')
+    for i, t in enumerate(time):
+        image = imageio.v2.imread(f'img_{i}.png')
         frames.append(image)
         
     return frames
