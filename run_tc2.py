@@ -70,8 +70,8 @@ class Run(csdl.Model):
         self.print_var(cruise_power)
         max_cruise_power = self.register_output('max_cruise_power', csdl.max(0.00001*cruise_power)/0.00001)
         max_lift_power = self.register_output('max_lift_power', csdl.max(0.00001*lift_power)/0.00001)
-        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5)
-        self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
+        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-3) # 1E-5
+        self.add_constraint('max_lift_power', upper=170000, scaler=1E-3) # 133652
         
         self.print_var(max_cruise_power)
         # self.print_var(max_lift_power)
@@ -97,10 +97,11 @@ class Run(csdl.Model):
         
         # for the minimum energy objective:
         self.add_design_variable('ua', lower=np.deg2rad(-20), upper=np.deg2rad(20), scaler=6)
-        self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
+        # self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
+        self.add_design_variable('ux', lower=10, upper=2000, scaler=1E-3)
+        self.add_design_variable('uz', lower=10, upper=2000, scaler=1E-3)
         #self.add_design_variable('dt', lower=0.25, scaler=1E1)
-        self.add_design_variable('dt', lower=0.375, scaler=1E1) # for min time
+        self.add_design_variable('dt', lower=0.5, scaler=1E1) # for min time
         # self.add_objective('energy', scaler=1E-3)
         
         self.add_objective('dt', scaler=1E1)
@@ -112,7 +113,7 @@ class Run(csdl.Model):
 
 
 options = {}
-options['dt'] = 2
+options['dt'] = 1 # 2
 options['mass'] = 3000 # (kg)
 options['wing_area'] = 19.6 # (m^2)
 options['lift_rotor_diameter'] = 2.4 # (m)

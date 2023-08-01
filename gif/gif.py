@@ -22,13 +22,16 @@ def create_frame(x, y, a, i, s, figsize, xlim, ylim, xlabel, ylabel, title, font
     
     new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + a))
     
-    plt.plot(x[0:i], y[0:i], c=marker_color, alpha=0.4, linewidth=3)
+    plt.plot(x[0:i], y[0:i], c=marker_color, alpha=0.4, linewidth=4)
     plt.scatter(x[i], y[i], marker=new_marker, s=s, c=marker_color)
     plt.xlabel(xlabel, fontsize=fontsize)
     plt.ylabel(ylabel, fontsize=fontsize)
     plt.title(title, fontsize=fontsize)
+
+    plt.xticks(fontsize=fontsize - 2)
+    plt.yticks(fontsize=fontsize - 2)
     
-    plt.savefig(f'img_{i}.png', transparent=True, dpi=300, facecolor='white')
+    plt.savefig(f'img_{i}.png', transparent=True, dpi=200, facecolor='white', bbox_inches="tight")
     
     plt.close()
 

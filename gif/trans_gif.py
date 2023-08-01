@@ -26,15 +26,15 @@ for i, t in enumerate(time):
                  a=1.5*np.rad2deg(a[i]), 
                  i=i, 
                  s=10000,
-                 figsize=(8,4),
+                 figsize=(8,3),
                  xlim=[-10,3400], 
                  ylim=[-10,10], 
                  xlabel='Horizontal Position (m)', 
                  ylabel='Altitude (m)',
                  title='Constant-Altitude Transition',
-                 fontsize=14,
+                 fontsize=16,
                  marker_color='blue')
 
 frames = combine_frames(time)
 
-imageio.mimsave('./example.gif', frames, fps = 6)
+imageio.mimsave('constant_altitude_min_energy.gif', frames, fps = 6)
