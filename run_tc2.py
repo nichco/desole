@@ -32,7 +32,7 @@ class Run(csdl.Model):
         self.create_input('vx_0', 0.1)
         self.create_input('vz_0', 0)
         self.create_input('x_0', 0)
-        self.create_input('z_0', 300)
+        self.create_input('z_0', 0)
         self.create_input('e_0', 0)
 
         # create model containing the integrator
@@ -54,9 +54,9 @@ class Run(csdl.Model):
         self.register_output('final_z', z[-1])
         self.add_constraint('final_z', equals=300, scaler=1E-2)
 
-        # self.register_output('min_z', csdl.min(100*z)/100)
-        # self.add_constraint('min_z', lower=-0.1, scaler=1E2)
-        min_z = self.register_output('min_z', csdl.min(10*z)/10)
+        self.register_output('min_z', csdl.min(100*z)/100)
+        self.add_constraint('min_z', lower=-0.1, scaler=1E2)
+        # min_z = self.register_output('min_z', csdl.min(10*z)/10)
         #self.add_constraint('min_z', lower=299.9, scaler=1E-2)
         #self.print_var(min_z)
 
@@ -99,8 +99,11 @@ class Run(csdl.Model):
         self.add_design_variable('ua', lower=np.deg2rad(-20), upper=np.deg2rad(20), scaler=6)
         self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
         self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('dt', lower=0.25, scaler=1E1) # 1E1
-        self.add_objective('energy', scaler=1E-3)
+        #self.add_design_variable('dt', lower=0.25, scaler=1E1)
+        self.add_design_variable('dt', lower=0.375, scaler=1E1) # for min time
+        # self.add_objective('energy', scaler=1E-3)
+        
+        self.add_objective('dt', scaler=1E1)
 
 
 
@@ -140,10 +143,12 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #exit()
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=3000, ftol=1E-6)
+optimizer = SLSQP(prob, maxiter=3000, ftol=1E-4)
 optimizer.solve()
 optimizer.print_results()
 
+
+print(1E-6*sim['energy']/1E-4)
 
 #print('ux: ', sim['ux'])
 #print('uz: ', sim['uz'])
