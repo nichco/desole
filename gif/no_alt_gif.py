@@ -1,4 +1,4 @@
-from gif import create_frame, combine_frames
+from gif import create_frame, combine_frames, interp_data
 import numpy as np
 import imageio
 
@@ -32,11 +32,13 @@ a = np.array([-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.349
   0.16492294, 0.17878315, 0.11591539,-0.03386699])
 
 
-for i, t in enumerate(time):
-    create_frame(x=x,
-                 y=z, 
-                 a=1.5*np.rad2deg(a[i]), 
-                 i=i, 
+x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=400)
+
+for i, t in enumerate(t_prime):
+    create_frame(x=x_prime,
+                 y=y_prime, 
+                 a=1.75*np.rad2deg(a_prime[i]), 
+                 i=i,
                  s=10000,
                  figsize=(8,3),
                  xlim=[0,4200],
@@ -47,6 +49,6 @@ for i, t in enumerate(time):
                  fontsize=16,
                  marker_color='blue')
 
-frames = combine_frames(time)
+frames = combine_frames(t_prime)
 
-imageio.mimsave('min_energy_transition.gif', frames, fps = 6)
+imageio.mimsave('min_energy_transition.gif', frames, fps = 60)

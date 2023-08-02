@@ -8,7 +8,7 @@ import imageio
 plt.rcParams["font.family"] = "Times New Roman"
 
 
-path, attributes = svg2paths('black4.svg')
+path, attributes = svg2paths('gif/black4.svg')
 marker = parse_path(attributes[0]['d'])
 marker.vertices -= marker.vertices.mean(axis=0)
 marker = marker.transformed(mpl.transforms.Affine2D().scale(-1,1))
@@ -31,7 +31,7 @@ def create_frame(x, y, a, i, s, figsize, xlim, ylim, xlabel, ylabel, title, font
     plt.xticks(fontsize=fontsize - 2)
     plt.yticks(fontsize=fontsize - 2)
     
-    plt.savefig(f'img_{i}.png', transparent=True, dpi=200, facecolor='white', bbox_inches="tight")
+    plt.savefig(f'img/img_{i}.png', transparent=True, dpi=150, facecolor='white', bbox_inches="tight")
     
     plt.close()
 
@@ -39,21 +39,32 @@ def create_frame(x, y, a, i, s, figsize, xlim, ylim, xlabel, ylabel, title, font
 def combine_frames(time):
     frames = []
     for i, t in enumerate(time):
-        image = imageio.v2.imread(f'img_{i}.png')
+        image = imageio.v2.imread(f'img/img_{i}.png')
         frames.append(image)
         
     return frames
 
 
+"""
+# to save the gif with imageio
+imageio.mimsave('./example.gif', # output gif
+                frames,          # array of input frames
+                fps = 5)         # optional: frames per second
+"""
 
 
-#imageio.mimsave('./example.gif', # output gif
-#                frames,          # array of input frames
-#                fps = 5)         # optional: frames per second
 
 
 
+def interp_data(x, y, a, t, num):
 
+    t_prime = np.arange(t[0], t[-1], t[-1]/num)
+
+    x_prime = np.interp(t_prime, t, x)
+    y_prime = np.interp(t_prime, t, y)
+    a_prime = np.interp(t_prime, t, a)
+
+    return x_prime, y_prime, a_prime, t_prime
 
 
 
