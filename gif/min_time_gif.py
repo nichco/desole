@@ -34,23 +34,23 @@ a = np.array([-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.349
  -0.02285031,-0.08103411,-0.13621113,-0.18661419])
 
 
-x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=200)
+x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=100)
 
 for i, t in enumerate(t_prime):
     create_frame(x=x_prime,
                  y=y_prime, 
-                 a=1.75*np.rad2deg(a_prime[i]), 
+                 a=np.rad2deg(a_prime[i]), 
                  i=i,
                  s=10000,
                  figsize=(8,3),
-                 xlim=[0,4200],
-                 ylim=[-400,400], 
+                 xlim=[0,600],
+                 ylim=[-200,200], 
                  xlabel='Horizontal Position (m)', 
                  ylabel='Altitude (m)',
-                 title='Min-Energy Transition',
+                 title='Minimum time',
                  fontsize=16,
-                 marker_color='blue')
+                 marker_color='red')
 
 frames = combine_frames(t_prime)
 
-imageio.mimsave('min_time_transition.gif', frames, fps = 2*60) # 4.27 times faster
+imageio.mimsave('min_time.gif', frames, fps = 30) # 4.27 times faster
