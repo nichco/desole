@@ -1,4 +1,4 @@
-from gif import create_frame, combine_frames
+from gif import create_frame, combine_frames, interp_data
 import numpy as np
 import imageio
 
@@ -20,21 +20,23 @@ a = np.array([-0.01350389,-0.03104296,-0.02994083,-0.03743226,-0.04973968,-0.038
   0.05596889, 0.05354298, 0.05130862, 0.04920144, 0.04709851, 0.04529791,0.04323155, 0.04161012, 0.03976235, 0.03811269, 0.03656443, 0.03495403,0.03365892, 0.03154088, 0.03183971, 0.02871176])
 
 
-for i, t in enumerate(time):
-    create_frame(x=x,
-                 y=z, 
-                 a=1.5*np.rad2deg(a[i]), 
-                 i=i, 
+x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=300)
+
+for i, t in enumerate(t_prime):
+    create_frame(x=x_prime,
+                 y=y_prime, 
+                 a=1.75*np.rad2deg(a_prime[i]), 
+                 i=i,
                  s=10000,
                  figsize=(8,3),
-                 xlim=[-10,3400], 
-                 ylim=[-10,10], 
+                 xlim=[0,4200],
+                 ylim=[-400,400], 
                  xlabel='Horizontal Position (m)', 
                  ylabel='Altitude (m)',
-                 title='Constant-Altitude Transition',
+                 title='Min-Energy Transition',
                  fontsize=16,
                  marker_color='blue')
 
-frames = combine_frames(time)
+frames = combine_frames(t_prime)
 
-imageio.mimsave('constant_altitude_min_energy.gif', frames, fps = 6)
+imageio.mimsave('constant_altitude_min_energy.gif', frames, fps = 60)

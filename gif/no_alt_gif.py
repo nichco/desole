@@ -32,7 +32,7 @@ a = np.array([-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.349
   0.16492294, 0.17878315, 0.11591539,-0.03386699])
 
 
-x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=400)
+x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=300)
 
 for i, t in enumerate(t_prime):
     create_frame(x=x_prime,
