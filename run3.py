@@ -131,20 +131,10 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #exit()
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=10000, ftol=1E-6)
+optimizer = SLSQP(prob, maxiter=10000, ftol=1E-5)
 optimizer.solve()
 optimizer.print_results()
 
-
-#print('ux: ', sim['ux'])
-#print('uz: ', sim['uz'])
-#print('ua: ', sim['ua'])
-print(sim['dt'])
-print(np.array2string(sim['ux'],separator=','))
-print(np.array2string(sim['uz'],separator=','))
-print(np.array2string(sim['ua'],separator=','))
-
-print(sim['ag'])
 
 plt.show()
 
@@ -157,6 +147,23 @@ plt.show()
 plt.plot(sim['lift'])
 plt.plot(sim['drag'])
 plt.show()
+
+
+
+
+print(1E-6*sim['energy']/1E-4)
+
+#print('ux: ', sim['ux'])
+#print('uz: ', sim['uz'])
+#print('ua: ', sim['ua'])
+print(sim['dt'])
+print(np.array2string(sim['ux'],separator=','))
+print(np.array2string(sim['uz'],separator=','))
+print(np.array2string(sim['ua'],separator=','))
+
+print(np.array2string(sim['x'],separator=','))
+print(np.array2string(sim['z'],separator=','))
+print(np.array2string(sim['v'],separator=','))
 
 
 

@@ -85,8 +85,8 @@ class Run(csdl.Model):
         self.register_output('final_gamma', gamma[-1])
         self.add_constraint('final_gamma', equals=0,)
 
-        self.register_output('max_x', csdl.max(x))
-        self.add_constraint('max_x', upper=3000, scaler=1E-3)
+        #self.register_output('max_x', csdl.max(x))
+        #self.add_constraint('max_x', upper=3000, scaler=1E-3)
 
 
         
@@ -99,9 +99,8 @@ class Run(csdl.Model):
         self.add_design_variable('ua', lower=np.deg2rad(-20), upper=np.deg2rad(20), scaler=6)
         self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
         self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('dt', lower=1, scaler=1E0)
+        self.add_design_variable('dt', lower=1, scaler=1E1)
         # self.add_design_variable('dt', lower=0.5, scaler=1E1) # for min time
-        #self.add_objective('energy', scaler=1E-3)
         self.add_objective('energy', scaler=1E-2)
         
         #self.add_objective('dt', scaler=1E1)
@@ -144,7 +143,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #exit()
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=3000, ftol=1E-5)
+optimizer = SLSQP(prob, maxiter=5000, ftol=1E-5)
 optimizer.solve()
 optimizer.print_results()
 
