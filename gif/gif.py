@@ -21,9 +21,11 @@ def create_frame(x, y, a, i, s, figsize, xlim, ylim, xlabel, ylabel, title, font
     plt.ylim(ylim)
     
     new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + a))
+
+    plt.axhline(y=300, color='black', linestyle='dashed', linewidth=1.5, alpha=0.5, zorder=1)
     
-    plt.plot(x[0:i], y[0:i], c=marker_color, alpha=0.4, linewidth=4)
-    plt.scatter(x[i], y[i], marker=new_marker, s=s, c=marker_color)
+    plt.plot(x[0:i], y[0:i], c=marker_color, alpha=0.4, linewidth=4, zorder=2)
+    plt.scatter(x[i], y[i], marker=new_marker, s=s, c=marker_color, zorder=3)
     plt.xlabel(xlabel, fontsize=fontsize)
     plt.ylabel(ylabel, fontsize=fontsize)
     plt.title(title, fontsize=fontsize)
