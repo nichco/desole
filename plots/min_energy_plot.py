@@ -4,15 +4,9 @@ import matplotlib.pyplot as plt
 from svgpathtools import svg2paths
 from svgpath2mpl import parse_path
 import numpy as np
-
+from plot import interp_data, marker
 
 plt.rcParams["font.family"] = "Times New Roman"
-
-# create an LPC marker
-path, attributes = svg2paths('gif/black4.svg')
-marker = parse_path(attributes[0]['d'])
-marker.vertices -= marker.vertices.mean(axis=0)
-marker = marker.transformed(mpl.transforms.Affine2D().scale(-1,1))
 
 
 # trajectory data
@@ -43,3 +37,33 @@ a = np.array([-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.349
   0.06169151, 0.0615609 , 0.06201306, 0.06318554, 0.06530946, 0.06866701,
   0.07364442, 0.08071966, 0.09044155, 0.10346209, 0.12045967, 0.14188127,
   0.16492294, 0.17878315, 0.11591539,-0.03386699])
+
+
+
+
+# interpolate the data
+num = 7
+x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=num)
+
+
+fig = plt.figure(figsize=(8,3))
+plt.xlim([x[0],x[-1]])
+plt.ylim([-400,400])
+fontsize = 16
+
+for i in range(num):
+    coef = 1.75
+    new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + coef*np.rad2deg(a_prime[i])))
+    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='white', zorder=3, edgecolor='black')
+
+plt.plot(x, z, c='black', alpha=1, linewidth=1, zorder=4)
+plt.scatter(x, z, marker='o', s=20, c='white', zorder=4, edgecolor='black')
+
+plt.xlabel('Horizontal Position (m)', fontsize=fontsize)
+plt.ylabel('Altitude (m)', fontsize=fontsize)
+
+plt.xticks(fontsize=fontsize - 2)
+plt.yticks(fontsize=fontsize - 2)
+
+plt.savefig('min_energy.pdf', transparent=True, bbox_inches="tight")
+plt.show()

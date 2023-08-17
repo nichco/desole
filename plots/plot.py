@@ -60,7 +60,7 @@ imageio.mimsave('./example.gif', # output gif
 
 def interp_data(x, y, a, t, num):
 
-    t_prime = np.arange(t[0], t[-1], t[-1]/num)
+    t_prime = np.linspace(t[0], t[-1], num)
 
     x_prime = np.interp(t_prime, t, x)
     y_prime = np.interp(t_prime, t, y)
