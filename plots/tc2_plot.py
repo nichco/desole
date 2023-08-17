@@ -48,6 +48,9 @@ for i in range(num):
 plt.plot(x, z, c='black', alpha=1, linewidth=1, zorder=4)
 plt.scatter(x, z, marker='o', s=30, c='white', zorder=4, edgecolor='black')
 
+#x_p = np.linspace(x[0],x[-1],num)
+#plt.fill_between(x_p, -300, 0, alpha=0.25, color='mistyrose', hatch='//', edgecolor='indianred')
+
 plt.xlabel('Horizontal Position (m)', fontsize=fontsize)
 plt.ylabel('Altitude (m)', fontsize=fontsize)
 
