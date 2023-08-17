@@ -70,17 +70,17 @@ class Run(csdl.Model):
         self.print_var(cruise_power)
         max_cruise_power = self.register_output('max_cruise_power', csdl.max(0.00001*cruise_power)/0.00001)
         max_lift_power = self.register_output('max_lift_power', csdl.max(0.00001*lift_power)/0.00001)
-        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-5) # 1E-5
-        self.add_constraint('max_lift_power', upper=170000, scaler=1E-5) # 133652
+        self.add_constraint('max_cruise_power', upper=468300, scaler=1E-4) # 1E-5
+        self.add_constraint('max_lift_power', upper=170000, scaler=1E-4) # 133652
         
         self.print_var(max_cruise_power)
-        # self.print_var(max_lift_power)
+        self.print_var(max_lift_power)
         
         ag = self.register_output('ag', ((dvx**2 + dvz**2)**0.5)/9.81)
         # self.print_var(ag)
         max_g = self.register_output('max_g', csdl.max(10*ag)/10)
-        self.print_var(max_g)
-        self.add_constraint('max_g', upper=1.0, scaler=1E1)
+        #self.print_var(max_g)
+        #self.add_constraint('max_g', upper=1.0, scaler=1E1)
 
         self.register_output('final_gamma', gamma[-1])
         self.add_constraint('final_gamma', equals=0,)
@@ -99,11 +99,11 @@ class Run(csdl.Model):
         self.add_design_variable('ua', lower=np.deg2rad(-20), upper=np.deg2rad(20), scaler=6)
         self.add_design_variable('ux', lower=0, upper=4000, scaler=1E-3)
         self.add_design_variable('uz', lower=0, upper=4000, scaler=1E-3)
-        self.add_design_variable('dt', lower=0.5, scaler=1E1)
-        # self.add_design_variable('dt', lower=0.5, scaler=1E1) # for min time
-        self.add_objective('energy', scaler=1E-2)
+        # self.add_design_variable('dt', lower=0.5, scaler=1E1)
+        self.add_design_variable('dt', lower=0.3, scaler=1E0) # for min time
+        #self.add_objective('energy', scaler=1E-2)
         
-        #self.add_objective('dt', scaler=1E1)
+        self.add_objective('dt', scaler=1E0)
 
 
 
@@ -113,7 +113,7 @@ class Run(csdl.Model):
 
 options = {}
 options['dt'] = 2
-options['mass'] = 4000 # (kg)
+options['mass'] = 3000 # (kg)
 options['wing_area'] = 19.6 # (m^2)
 options['lift_rotor_diameter'] = 2.4 # (m)
 options['cruise_rotor_diameter'] = 2.6 # (m)
@@ -143,7 +143,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 #exit()
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=5000, ftol=1E-5)
+optimizer = SLSQP(prob, maxiter=5000, ftol=1E-6)
 optimizer.solve()
 optimizer.print_results()
 
