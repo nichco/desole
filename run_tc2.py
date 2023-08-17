@@ -113,7 +113,7 @@ class Run(csdl.Model):
 
 options = {}
 options['dt'] = 2
-options['mass'] = 3000 # (kg)
+options['mass'] = 4000 # (kg)
 options['wing_area'] = 19.6 # (m^2)
 options['lift_rotor_diameter'] = 2.4 # (m)
 options['cruise_rotor_diameter'] = 2.6 # (m)
