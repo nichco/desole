@@ -67,11 +67,11 @@ aoa = np.deg2rad(np.linspace(-90,90,num))
 machnum = np.linspace(0.05,0.3,4)
 
 
-fig = plt.figure(figsize=(8,4))
+fig = plt.figure(figsize=(7,4))
 plt.xlim([-90,90])
 #plt.ylim([-400,400])
 fontsize = 16
-plt.grid(color='lavender', zorder=0) # lightsteelblue
+plt.grid(color='lavender', zorder=0, axis='x') # lightsteelblue
 
 colors = ['blue', 'darkviolet', 'violet', 'palevioletred']
 
@@ -89,22 +89,22 @@ for i, m in enumerate(machnum):
         cd = sm_cd.predict_values(point)
         datacd[j] = cd
 
-    plt.plot(np.rad2deg(aoa), datacl, c=colors[i], alpha=1, linewidth=1.5, zorder=5 - i)
-    #plt.plot(np.rad2deg(aoa), datacd, c=colors[i], alpha=1, linewidth=1.5, zorder=6 - i)
+    plt.plot(np.rad2deg(aoa), datacl, c=colors[i], alpha=1, linewidth=3, zorder=6 - i)
+    #plt.plot(np.rad2deg(aoa), datacd, c=colors[i], alpha=1, linewidth=3, zorder=6 - i)
     #plt.plot(aoa,datacd)
     #plt.scatter(alpha,cd1)
     #plt.plot(ddata)
 
 
-plt.scatter(np.rad2deg(alpha), cl05, s=30, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
-plt.scatter(np.rad2deg(alpha), cl1, s=30, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
-plt.scatter(np.rad2deg(alpha), cl2, s=30, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
-plt.scatter(np.rad2deg(alpha), cl3, s=30, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cl05, s=40, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cl1, s=40, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cl2, s=40, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cl3, s=40, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
 
-#plt.scatter(np.rad2deg(alpha), cd05, s=30, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
-#plt.scatter(np.rad2deg(alpha), cd1, s=30, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
-#plt.scatter(np.rad2deg(alpha), cd2, s=30, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
-#plt.scatter(np.rad2deg(alpha), cd3, s=30, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cd05, s=40, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cd1, s=40, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cd2, s=40, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cd3, s=40, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
 
 
 plt.legend(['Mach 0.05', 'Mach 0.10', 'Mach 0.20', 'Mach 0.30'], frameon=False, fontsize=fontsize - 2)

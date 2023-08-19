@@ -48,18 +48,20 @@ num = 7
 x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=num)
 
 
-fig = plt.figure(figsize=(8,3))
+fig = plt.figure(figsize=(7,3))
 plt.xlim([x[0],x[-1]])
 plt.ylim([-300,300])
 fontsize = 16
 
+plt.axhline(y=0, color='lavender', linestyle='dashed', linewidth=2, alpha=1, zorder=0, label = '_nolegend_')
+
 for i in range(num):
     coef = 1.75
     new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + coef*np.rad2deg(a_prime[i])))
-    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='lightgray', zorder=3, edgecolor='gray', linewidth=1, alpha=1)
+    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='mistyrose', zorder=3, edgecolor='black', linewidth=1, alpha=1)
 
-plt.plot(x, z, c='black', alpha=1, linewidth=1, zorder=4)
-plt.scatter(x, z, marker='o', s=30, c='white', zorder=4, edgecolor='black')
+plt.plot(x, z, c='red', alpha=1, linewidth=3, zorder=4)
+# plt.scatter(x, z, marker='o', s=30, c='white', zorder=4, edgecolor='black')
 
 plt.xlabel('Horizontal Position (m)', fontsize=fontsize)
 plt.ylabel('Altitude (m)', fontsize=fontsize)

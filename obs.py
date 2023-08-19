@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 plt.rcParams.update(plt.rcParamsDefault)
 
 
-n = 3000
-x_lim = 3000.0 # (m)
+n = 1000
+x_lim = 3500.0 # (m)
 be = 10
-pi = 100
-pf = 3000
+pi = 300
+pf = 3500
 bf = pf + 500
 obs_height = 100
 x = np.linspace(0,x_lim,n)
@@ -32,17 +32,19 @@ sm_obs.train()
 
 
 
+"""
+num = 1000
+x_p = np.linspace(0,x_lim,num)
+obs_p = sm_obs.predict_values(x_p)
 
-# num = 10000
-# x_p = np.linspace(0,x_lim,num)
-# obs_p = sm_obs.predict_values(x_p)
+plt.plot(x_p,obs_p)
+#plt.scatter(x,obs)
+plt.xlim(0,500)
+plt.show()
 
-# plt.plot(x_p,obs_p)
-# plt.scatter(x,obs)
-# plt.xlim(0,3000)
-# plt.show()
+exit()
+"""
 
-# exit()
 
 class Obs(csdl.Model):
     def initialize(self):

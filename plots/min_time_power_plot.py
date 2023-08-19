@@ -1,0 +1,60 @@
+import numpy as np
+import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "Times New Roman"
+
+
+
+num = 40
+dt = 0.39339627
+time = np.arange(0, num*dt, dt)
+
+cruise_power = np.array([444587.66890896,448155.18021717,448361.58631499,448565.57715422,
+ 448748.89414985,448900.26662084,449080.25966396,449218.31527647,
+ 449379.42242529,449498.8005686 ,449617.79146614,449764.01755558,
+ 449867.95563461,449990.24422783,450125.30606374,450193.79444553,
+ 450315.79273797,450397.13624204,450500.68996641,450588.26375903,
+ 450669.71940127,450759.58846954,450786.7976105 ,450836.87055789,
+ 450830.70941473,450817.83580687,450758.25390121,450695.61160841,
+ 450599.963558  ,450487.11161877,450402.95170051,450287.63897474,
+ 450220.44311207,450078.90843875,449983.96353033,449874.43396708,
+ 449767.06827678,449647.58355367,449588.10788223,446157.19922332])
+
+lift_power = np.array([152163.48602448,155243.48998111,154793.42030728,154382.43183048,
+ 153981.81497751,153630.1023895 ,153306.59868269,153013.20250388,
+ 152743.39620323,152503.57085914,152289.13119272,152093.23514209,
+ 151937.71865655,151803.37049544,151693.70663945,151627.0682883 ,
+ 151597.61131041,151616.6083114 ,151638.95675689,151430.45641404,
+ 151152.32842817,150773.90654247,149693.07730058,148805.09300641,
+ 148466.33977417,148353.30728801,148267.24715849,148534.81122549,
+ 149612.45426709,150006.85485699,150076.62165705,150079.62862393,
+ 150057.95173414,150004.93015013,149959.2968723 ,149989.04457079,
+ 150389.15341877,151346.27958051,151602.35385463,148203.8519199 ])
+
+
+
+fig = plt.figure(figsize=(7,3))
+plt.xlim([0,time[-1]])
+plt.ylim([0,500000*1E-3])
+fontsize = 16
+
+
+plt.axhline(y=460000*1E-3, color='black', linestyle='dashed', linewidth=2, alpha=0.65, zorder=1)
+plt.axhline(y=165000*1E-3, color='black', linestyle='dotted', linewidth=2, alpha=0.65, zorder=1)
+
+plt.plot(time, cruise_power*1E-3, c='royalblue', alpha=1, linewidth=3, zorder=4)
+plt.plot(time, lift_power*1E-3, c='darkorange', alpha=1, linewidth=3, zorder=4)
+
+x_p = np.linspace(time[0],time[-1],num)
+plt.fill_between(x_p, 0, cruise_power*1E-3, alpha=0.75, color='lightblue',zorder=0)
+plt.fill_between(x_p, 0, lift_power*1E-3, alpha=0.75, color='bisque',zorder=0)
+
+plt.legend(['max cruise power constraint', 'max lift power constraint', 'cruise rotor power', 'lift rotor power'], frameon=False, fontsize=fontsize - 2, loc='center', bbox_to_anchor=(0.28, 0.6))
+
+plt.xlabel('Time (s)', fontsize=fontsize)
+plt.ylabel('Power (kW)', fontsize=fontsize)
+
+plt.xticks(fontsize=fontsize - 2)
+plt.yticks(fontsize=fontsize - 2)
+
+plt.savefig('power_time.pdf', transparent=True, bbox_inches="tight")
+plt.show()

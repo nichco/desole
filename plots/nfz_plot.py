@@ -75,5 +75,5 @@ plt.yticks(fontsize=fontsize - 2)
 
 plt.legend(['target altitude', 'min altitude constraint'], frameon=False, fontsize=fontsize - 2, loc='upper left')
 
-plt.savefig('takeoff.pdf', transparent=True, bbox_inches="tight")
+plt.savefig('nfz.pdf', transparent=True, bbox_inches="tight")
 plt.show()

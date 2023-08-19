@@ -35,7 +35,7 @@ num = 7
 x_prime, y_prime, a_prime, t_prime = interp_data(x=x, y=z, a=a, t=time, num=num)
 
 
-fig = plt.figure(figsize=(8,3))
+fig = plt.figure(figsize=(7,3))
 plt.xlim([x[0],x[-1]])
 plt.ylim([-300,300])
 fontsize = 16
@@ -43,19 +43,21 @@ fontsize = 16
 for i in range(num):
     coef = 2
     new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + coef*np.rad2deg(a_prime[i])))
-    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='lightgray', zorder=3, edgecolor='gray', linewidth=1, alpha=1)
+    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='lavender', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
 
-plt.plot(x, z, c='black', alpha=1, linewidth=1, zorder=4)
-plt.scatter(x, z, marker='o', s=30, c='white', zorder=4, edgecolor='black')
+plt.plot(x, z, c='darkviolet', alpha=1, linewidth=3, zorder=4, label = '_nolegend_')
+# plt.scatter(x, z, marker='o', s=30, c='white', zorder=4, edgecolor='black')
 
-#x_p = np.linspace(x[0],x[-1],num)
-#plt.fill_between(x_p, -300, 0, alpha=0.25, color='mistyrose', hatch='//', edgecolor='indianred')
+x_p = np.linspace(x[0],x[-1],num)
+plt.fill_between(x_p, -300, 0, alpha=1, color='whitesmoke', hatch='//', edgecolor='lightgray')
 
 plt.xlabel('Horizontal Position (m)', fontsize=fontsize)
 plt.ylabel('Altitude (m)', fontsize=fontsize)
 
 plt.xticks(fontsize=fontsize - 2)
 plt.yticks(fontsize=fontsize - 2)
+
+plt.legend(['min altitude constraint'], frameon=False, fontsize=fontsize - 2, loc='upper left')
 
 plt.savefig('tc2.pdf', transparent=True, bbox_inches="tight")
 plt.show()
