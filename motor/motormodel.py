@@ -76,14 +76,21 @@ class MotorExplicit(csdl.CustomExplicitOperation):
 
 
 if __name__ == '__main__':
+    import time
+
     name = 'cruise'
     sim = python_csdl_backend.Simulator(Motor(name=name,num_nodes=5))
     sim['cruise_torque'] = 2000
-    sim['cruise_m'] = 200
-    sim.run()
+    #sim['cruise_m'] = 200
 
-    eta = sim[name+'eta']
-    print('efficiency: ',eta)
+    t0 = time.perf_counter()
+    sim.run()
+    t1 = time.perf_counter()
+
+    print(t1 - t0)
+
+    #eta = sim[name+'eta']
+    #print('efficiency: ',eta)
 
     # print partials
     sim.check_partials(compact_print=True)

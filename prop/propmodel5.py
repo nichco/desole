@@ -5,6 +5,7 @@ import python_csdl_backend
 import matplotlib.pyplot as plt
 plt.rcParams.update(plt.rcParamsDefault)
 
+
 ctarr = np.array([[ 0.50845263,  0.48114841,  0.46048069,  0.45263168,  0.44918747,  0.45263168, 0.46048069,  0.48114841,  0.50845263],
     [ 0.41469071,  0.37799377,  0.35409169,  0.33544928,  0.32626682,  0.33544928, 0.35409169,  0.37799377,  0.41469071],
     [ 0.35626874,  0.31375178,  0.27994125,  0.25443275,  0.24395818,  0.25443275, 0.27994125,  0.31375178,  0.35626874],
@@ -194,10 +195,16 @@ class PropExplicit(csdl.CustomExplicitOperation):
 
 
 if __name__ == '__main__':
+
+    import time
     
     name = 'lift'
     sim = python_csdl_backend.Simulator(Prop(name=name, num_nodes=4, d=2.4))
+    t0 = time.perf_counter()
     sim.run()
+    t1 = time.perf_counter()
+
+    print(t1- t0)
 
     print('C_T: ', sim[name + '_C_T'])
     print('C_P: ', sim[name + '_C_P'])
