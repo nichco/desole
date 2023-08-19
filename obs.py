@@ -7,10 +7,10 @@ plt.rcParams.update(plt.rcParamsDefault)
 
 
 n = 1000
-x_lim = 3500.0 # (m)
+x_lim = 3000.0 # (m)
 be = 10
 pi = 300
-pf = 3500
+pf = 3000
 bf = pf + 500
 obs_height = 100
 x = np.linspace(0,x_lim,n)
@@ -32,10 +32,13 @@ sm_obs.train()
 
 
 
-"""
-num = 1000
+
+num = 100
 x_p = np.linspace(0,x_lim,num)
 obs_p = sm_obs.predict_values(x_p)
+
+print(np.array2string(x_p.flatten(),separator=','))
+print(np.array2string(obs_p.flatten(),separator=','))
 
 plt.plot(x_p,obs_p)
 #plt.scatter(x,obs)
@@ -43,7 +46,7 @@ plt.xlim(0,500)
 plt.show()
 
 exit()
-"""
+
 
 
 class Obs(csdl.Model):

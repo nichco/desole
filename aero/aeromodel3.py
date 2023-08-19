@@ -4,7 +4,7 @@ import python_csdl_backend
 from smt.surrogate_models import RBF
 import matplotlib.pyplot as plt
 plt.rcParams.update(plt.rcParamsDefault)
-
+import time
 
 
 
@@ -73,10 +73,16 @@ class AeroExplicit(csdl.CustomExplicitOperation):
         # cd = sm_cd.predict_values(inputs['alpha'])
         cl = np.zeros((n))
         cd = np.zeros((n))
+        #t = np.zeros((n))
         for i in range(n):
             a = np.array([inputs['alpha'][i]])
+            #t0 = time.perf_counter()
             cl[i] = sm_cl.predict_values(a)
+            #t1 = time.perf_counter()
             cd[i] = sm_cd.predict_values(a)
+
+            #t[i] = t1 - t0
+        #print(np.average(t))
 
         outputs['cl'] = 1*cl
         outputs['cd'] = 1*cd
@@ -106,4 +112,4 @@ if __name__ == '__main__':
     print('C_L: ', sim['C_L'])
     print('C_D: ', sim['C_D'])
 
-    sim.check_partials(step=1E-6, compact_print=True)
+    #sim.check_partials(step=1E-6, compact_print=True)

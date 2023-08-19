@@ -89,32 +89,31 @@ for i, m in enumerate(machnum):
         cd = sm_cd.predict_values(point)
         datacd[j] = cd
 
-    plt.plot(np.rad2deg(aoa), datacl, c=colors[i], alpha=1, linewidth=3, zorder=6 - i)
-    #plt.plot(np.rad2deg(aoa), datacd, c=colors[i], alpha=1, linewidth=3, zorder=6 - i)
+    #plt.plot(np.rad2deg(aoa), datacl, c=colors[i], alpha=1, linewidth=3, zorder=6 - i)
+    plt.plot(np.rad2deg(aoa), datacd, c=colors[i], alpha=1, linewidth=3, zorder=6 - i)
     #plt.plot(aoa,datacd)
     #plt.scatter(alpha,cd1)
-    #plt.plot(ddata)
 
 
-plt.scatter(np.rad2deg(alpha), cl05, s=40, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
-plt.scatter(np.rad2deg(alpha), cl1, s=40, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
-plt.scatter(np.rad2deg(alpha), cl2, s=40, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
-plt.scatter(np.rad2deg(alpha), cl3, s=40, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cl05, s=40, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cl1, s=40, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cl2, s=40, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
+#plt.scatter(np.rad2deg(alpha), cl3, s=40, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
 
-#plt.scatter(np.rad2deg(alpha), cd05, s=40, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
-#plt.scatter(np.rad2deg(alpha), cd1, s=40, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
-#plt.scatter(np.rad2deg(alpha), cd2, s=40, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
-#plt.scatter(np.rad2deg(alpha), cd3, s=40, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cd05, s=40, alpha=0.25, marker='o', c='blue', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cd1, s=40, alpha=0.25, marker='o', c='darkviolet', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cd2, s=40, alpha=0.25, marker='o', c='violet', edgecolor='black', zorder=2)
+plt.scatter(np.rad2deg(alpha), cd3, s=40, alpha=0.25, marker='o', c='palevioletred', edgecolor='black', zorder=2)
 
 
 plt.legend(['Mach 0.05', 'Mach 0.10', 'Mach 0.20', 'Mach 0.30'], frameon=False, fontsize=fontsize - 2)
 
-plt.xlabel('Angle of attack '+r'($^{\circ}$)', fontsize=fontsize)
-plt.ylabel('Lift coefficient', fontsize=fontsize)
-#plt.ylabel('Drag coefficient', fontsize=fontsize)
+plt.xlabel('Angle of Attack '+r'($^{\circ}$)', fontsize=fontsize)
+#plt.ylabel('Lift Coefficient', fontsize=fontsize)
+plt.ylabel('Drag Coefficient', fontsize=fontsize)
 plt.xticks(fontsize=fontsize - 2)
 plt.yticks(fontsize=fontsize - 2)
 
 
-plt.savefig('cl.pdf', transparent=True, bbox_inches="tight")
+plt.savefig('cd.pdf', transparent=True, bbox_inches="tight")
 plt.show()
