@@ -104,14 +104,14 @@ plt.axhline(y=300, color='black', linestyle='dashed', linewidth=2, alpha=0.5, zo
 for i in range(num):
     coef = 2
     new_marker = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + coef*np.rad2deg(a_prime[i])))
-    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='palegreen', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
+    plt.scatter(x_prime[i], y_prime[i], marker=new_marker, s=5000, c='lightgray', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
 
-plt.plot(x, z, c='limegreen', alpha=1, linewidth=3, zorder=11, label = '_nolegend_')
+plt.plot(x, z, c='black', alpha=1, linewidth=3, zorder=11, label = '_nolegend_')
 
 
 # x_p = np.linspace(x[0],x[-1],num)
-plt.fill_between(x_p, -100, obs_p, alpha=0.375, color='mistyrose', hatch='//', edgecolor='red', zorder=10)
-plt.plot(x_p, obs_p, c='red', alpha=0.5, linewidth=1, zorder=12, label = '_nolegend_')
+plt.fill_between(x_p, -100, obs_p, alpha=0.5, color='whitesmoke', hatch='//', edgecolor='lightgray', zorder=10)
+plt.plot(x_p, obs_p, c='black', alpha=0.5, linewidth=1, zorder=12, label = '_nolegend_')
 
 plt.xlabel('Horizontal Position (m)', fontsize=fontsize)
 plt.ylabel('Altitude (m)', fontsize=fontsize)

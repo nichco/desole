@@ -147,7 +147,7 @@ x_prime_1, y_prime_1, a_prime_1, t_prime_1 = interp_data(x=x1, y=z1, a=a1, t=tim
 
 fig = plt.figure(figsize=(14,3))
 plt.xlim([xu[0],xu[-1]])
-plt.ylim([-400,400])
+plt.ylim([-300,200])
 fontsize = 16
 
 plt.axhline(y=0, color='lavender', linestyle='dotted', linewidth=2, alpha=1, zorder=0, label = '_nolegend_')
@@ -163,14 +163,14 @@ for i in range(num):
     new_marker_2 = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + coef*np.rad2deg(a_prime_2[i])))
     new_marker_1 = marker.transformed(mpl.transforms.Affine2D().rotate_deg(180 + coef*np.rad2deg(a_prime_1[i])))
 
-    plt.scatter(x_prime_u[i], y_prime_u[i], marker=new_marker_u, s=5000, c='lightblue', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
-    plt.scatter(x_prime_3[i], y_prime_3[i], marker=new_marker_3, s=5000, c='thistle', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
-    plt.scatter(x_prime_2[i], y_prime_2[i], marker=new_marker_2, s=5000, c='lavenderblush', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
+    plt.scatter(x_prime_u[i], y_prime_u[i], marker=new_marker_u, s=5000, c='lightgray', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
+    plt.scatter(x_prime_3[i], y_prime_3[i], marker=new_marker_3, s=5000, c='lightblue', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
+    plt.scatter(x_prime_2[i], y_prime_2[i], marker=new_marker_2, s=5000, c='thistle', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
     plt.scatter(x_prime_1[i], y_prime_1[i], marker=new_marker_1, s=5000, c='mistyrose', zorder=3, edgecolor='black', linewidth=1, alpha=1, label = '_nolegend_')
 
-plt.plot(xu, zu, c='blue', alpha=1, linewidth=3, zorder=4)
-plt.plot(x3, z3, c='blueviolet', alpha=1, linewidth=3, zorder=4)
-plt.plot(x2, z2, c='orchid', alpha=1, linewidth=3, zorder=4)
+plt.plot(xu, zu, c='black', alpha=1, linewidth=3, zorder=4)
+plt.plot(x3, z3, c='blue', alpha=1, linewidth=3, zorder=4)
+plt.plot(x2, z2, c='blueviolet', alpha=1, linewidth=3, zorder=4)
 plt.plot(x1, z1, c='crimson', alpha=1, linewidth=3, zorder=4)
 
 
@@ -180,14 +180,14 @@ plt.ylabel('Altitude (m)', fontsize=fontsize)
 plt.xticks(fontsize=fontsize - 2)
 plt.yticks(fontsize=fontsize - 2)
 
-plt.text(1000,150,'13.1 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='crimson',boxstyle='round'))
-plt.text(2000,150,'11.8 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='orchid',boxstyle='round'))
-plt.text(3000,150,'11.5 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='blueviolet',boxstyle='round'))
-plt.text(3600,150,'11.4 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='blue',boxstyle='round'))
+plt.text(1000,100,'13.1 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='crimson',boxstyle='round'))
+plt.text(2000,100,'11.8 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='blueviolet',boxstyle='round'))
+plt.text(3000,100,'11.5 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='blue',boxstyle='round'))
+plt.text(3600,100,'11.4 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='black',boxstyle='round'))
 
 
 
-plt.legend(['original', '3 km constraint', '2 km constraint', '1 km constraint'], frameon=False, fontsize=fontsize - 3)
+plt.legend(['original', '3 km constraint', '2 km constraint', '1 km constraint'], frameon=True, fontsize=fontsize - 3)
 
 plt.savefig('min_energy_xconstrained.pdf', transparent=True, bbox_inches="tight")
 plt.show()

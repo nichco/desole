@@ -14,7 +14,7 @@ prop_s = 0.0027942000015173107
 aero_s = 0.00012549999519251287
 
 
-val = ['motor model', 'motor surrogate', 'rotor model', 'rotor surrogate', 'VLM model', 'VLM surrogate']
+val = ['Motor Model', 'Motor Surrogate', 'Rotor Model', 'Rotor Surrogate', 'VLM Model', 'VLM Surrogate']
 time = [motor, motor_s, prop, prop_s, aero, aero_s]
 
 c1 = 'darkgray'

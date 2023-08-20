@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 plt.rcParams.update(plt.rcParamsDefault)
 
 
-
+"""
 uxu = np.array([1481.09221058,1504.35719711,1522.76230455,1536.76925957,1430.91669911,
  1268.42905167,1130.8019644 ,1038.67825902,1030.81354477,1091.44467212,
  1159.43408372,1210.92889466,1245.91380548,1268.98454785,1283.96454692,
@@ -36,7 +36,7 @@ uau = np.array([-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.34906585,-0.3
   0.12821729, 0.12746971, 0.1284496 , 0.13136246, 0.13662026, 0.14484459,
   0.15671018, 0.17244195, 0.19112982, 0.21055698, 0.22732882, 0.23741101,
   0.22067169, 0.14319626, 0.05921549,-0.04880338])
-
+"""
 
 class Run(csdl.Model):
     def initialize(self):
@@ -86,9 +86,9 @@ class Run(csdl.Model):
 
         #self.register_output('min_z', csdl.min(100*z)/100)
         #self.add_constraint('min_z', lower=-0.1, scaler=1E2)
-        #min_z = self.register_output('min_z', csdl.min(10*z)/10)
-        #self.add_constraint('min_z', lower=299.9, scaler=1E-2)
-        #self.print_var(min_z)
+        min_z = self.register_output('min_z', csdl.min(10*z)/10)
+        self.add_constraint('min_z', lower=299.9, scaler=1E-2)
+        self.print_var(min_z)
 
         # final velocity constraint:
         v = self.register_output('v', (vx**2 + vz**2)**0.5)
@@ -160,7 +160,7 @@ sim = python_csdl_backend.Simulator(Run(options=options), analytics=0)
 
 
 prob = CSDLProblem(problem_name='Trajectory Optimization', simulator=sim)
-optimizer = SLSQP(prob, maxiter=5000, ftol=1E-5)
+optimizer = SLSQP(prob, maxiter=5000, ftol=1E-6)
 optimizer.solve()
 optimizer.print_results()
 
