@@ -121,7 +121,7 @@ plt.yticks(fontsize=fontsize - 2)
 
 plt.legend(['target altitude', 'no-fly zone'], frameon=False, fontsize=fontsize - 2, loc='upper left')
 
-plt.text(2500,400,'58.7 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='black',boxstyle='round'))
+plt.text(2500,400,'58.7 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='black',boxstyle='round'))
 
 plt.savefig('nfz.pdf', transparent=True, bbox_inches="tight")
 plt.show()

@@ -87,7 +87,7 @@ class Run(csdl.Model):
         #self.register_output('min_z', csdl.min(100*z)/100)
         #self.add_constraint('min_z', lower=-0.1, scaler=1E2)
         min_z = self.register_output('min_z', csdl.min(10*z)/10)
-        self.add_constraint('min_z', lower=299.9, scaler=1E-2)
+        self.add_constraint('min_z', lower=250, scaler=1E-2)
         self.print_var(min_z)
 
         # final velocity constraint:

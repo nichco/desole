@@ -180,10 +180,10 @@ plt.ylabel('Altitude (m)', fontsize=fontsize)
 plt.xticks(fontsize=fontsize - 2)
 plt.yticks(fontsize=fontsize - 2)
 
-plt.text(1000,100,'13.1 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='crimson',boxstyle='round'))
-plt.text(2000,100,'11.8 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='blueviolet',boxstyle='round'))
-plt.text(3000,100,'11.5 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='blue',boxstyle='round'))
-plt.text(3600,100,'11.4 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='white',alpha=1,edgecolor='black',boxstyle='round'))
+plt.text(1000,100,'13.1 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='crimson',boxstyle='round'))
+plt.text(2000,100,'11.8 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='blueviolet',boxstyle='round'))
+plt.text(3000,100,'11.5 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='blue',boxstyle='round'))
+plt.text(3600,100,'11.4 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='black',boxstyle='round'))
 
 
 
