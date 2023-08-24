@@ -215,8 +215,8 @@ plt.yticks(fontsize=fontsize - 2)
 plt.text(400,20,'27.1 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='crimson',boxstyle='round'))
 plt.text(400,-30,'16.8 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='orchid',boxstyle='round'))
 plt.text(400,-80,'13.6 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='blueviolet',boxstyle='round'))
-plt.text(400,-130,'11.9 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='steelblue',boxstyle='round'))
-plt.text(400,-180,'11.4 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='black',boxstyle='round'))
+plt.text(400,-130,'11.9 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='blue',boxstyle='round'))
+plt.text(400,-200,'11.4 MJ',fontsize=fontsize-2,c='black',bbox=dict(facecolor='ghostwhite',alpha=1,edgecolor='black',boxstyle='round'))
 
 
 plt.legend(['unconstrained', '150 m constraint', '100 m constraint', '50 m constraint', '0 m constraint'], frameon=True, fontsize=fontsize - 3, loc='lower right')

@@ -12,6 +12,7 @@ plt.rcParams["font.family"] = "Times New Roman"
 # trajectory data
 num = 40
 dt = 1.68061329
+e = 11.4
 time = np.arange(0, num*dt, dt)
 
 x = np.array([   0.        ,   7.40047841,  28.52834412,  62.64472609, 109.32678126,

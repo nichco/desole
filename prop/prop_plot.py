@@ -141,10 +141,10 @@ if __name__ == '__main__':
 
     ax1.set_title('$C_T$', fontsize=fontsize)
     ax2.set_title('$C_P$', fontsize=fontsize)
-    ax1.set_ylabel('axial inflow velocity (m/s)', fontsize=fontsize)
-    ax2.set_ylabel('axial inflow velocity (m/s)', fontsize=fontsize)
-    ax1.set_xlabel('edgewise inflow velocity (m/s)', fontsize=fontsize)
-    ax2.set_xlabel('edgewise inflow velocity (m/s)', fontsize=fontsize)
+    ax1.set_ylabel('Axial Inflow Velocity (m/s)', fontsize=fontsize)
+    ax2.set_ylabel('Axial Inflow Velocity (m/s)', fontsize=fontsize)
+    ax1.set_xlabel('Edgewise Inflow Velocity (m/s)', fontsize=fontsize)
+    ax2.set_xlabel('Edgewise Inflow Velocity (m/s)', fontsize=fontsize)
     
     
     ax1.set_xlim(0,60)
