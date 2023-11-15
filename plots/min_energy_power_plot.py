@@ -56,5 +56,5 @@ plt.ylabel('Power (kW)', fontsize=fontsize)
 plt.xticks(fontsize=fontsize - 2)
 plt.yticks(fontsize=fontsize - 2)
 
-plt.savefig('power_energy.pdf', transparent=True, bbox_inches="tight")
+plt.savefig('power_energy.png', transparent=True, bbox_inches="tight", dpi=500)
 plt.show()
