@@ -1,0 +1,690 @@
+node name, 	 node object
+
+dt, <csdl.lang.input.Input object at 0x000001E5C202C0A0>, .dt
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+	SUCCESSORS
+		_0001
+
+ux, <csdl.lang.input.Input object at 0x000001E5C202C130>, .ux
+	CONNECTED TO: False
+	PROMOTED TO: True
+		ux, subgroup.ux
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+uz, <csdl.lang.input.Input object at 0x000001E5C202C160>, .uz
+	CONNECTED TO: False
+	PROMOTED TO: True
+		uz, subgroup.uz
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+ua, <csdl.lang.input.Input object at 0x000001E5C202C190>, .ua
+	CONNECTED TO: False
+	PROMOTED TO: True
+		ua, subgroup.ua
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+vx_0, <csdl.lang.input.Input object at 0x000001E5C202C1C0>, .vx_0
+	CONNECTED TO: False
+	PROMOTED TO: True
+		vx_0, subgroup.vx_0
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+vz_0, <csdl.lang.input.Input object at 0x000001E5C202C1F0>, .vz_0
+	CONNECTED TO: False
+	PROMOTED TO: True
+		vz_0, subgroup.vz_0
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+x_0, <csdl.lang.input.Input object at 0x000001E5C202C250>, .x_0
+	CONNECTED TO: False
+	PROMOTED TO: True
+		x_0, subgroup.x_0
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+z_0, <csdl.lang.input.Input object at 0x000001E5C202C2B0>, .z_0
+	CONNECTED TO: False
+	PROMOTED TO: True
+		z_0, subgroup.z_0
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+e_0, <csdl.lang.input.Input object at 0x000001E5C202C310>, .e_0
+	CONNECTED TO: False
+	PROMOTED TO: True
+		e_0, subgroup.e_0
+	PREDECESSORS
+	SUCCESSORS
+		_00b1
+
+_0001, <csdl.operations.expand.expand object at 0x000001E5C202C0D0>
+	PREDECESSORS
+		dt,(1,) 
+	SUCCESSORS
+		hvec,(39,) 
+
+hvec, <csdl.lang.output.Output object at 0x000001E5C202C100>, .hvec
+	CONNECTED TO: False
+	PROMOTED TO: True
+		hvec, subgroup.hvec
+	PREDECESSORS
+		_0001
+	SUCCESSORS
+		_00b1
+
+_009Q, <csdl.operations.decompose.decompose object at 0x000001E5C5D72920>
+	PREDECESSORS
+		z,(40,) 
+	SUCCESSORS
+		final_z,(1,) 
+
+final_z, <csdl.lang.output.Output object at 0x000001E5C5D727A0>, .final_z
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_009Q
+	SUCCESSORS
+
+_009S, <csdl.operations.power_combination.power_combination object at 0x000001E5C5D72950>
+	PREDECESSORS
+		z,(40,) 
+	SUCCESSORS
+		_009T,(40,) 
+
+_009T, <csdl.lang.output.Output object at 0x000001E5C5D72800>, ._009T
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_009S
+	SUCCESSORS
+		_009U
+
+_009U, <csdl.operations.min.min object at 0x000001E5C5D72830>
+	PREDECESSORS
+		_009T,(40,) 
+	SUCCESSORS
+		_009V,(1,) 
+
+_009V, <csdl.lang.output.Output object at 0x000001E5C5D727D0>, ._009V
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_009U
+	SUCCESSORS
+		_009W
+
+_009W, <csdl.operations.power_combination.power_combination object at 0x000001E5C5D72410>
+	PREDECESSORS
+		_009V,(1,) 
+	SUCCESSORS
+		min_z,(1,) 
+
+min_z, <csdl.lang.output.Output object at 0x000001E5C5D72440>, .min_z
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_009W
+	SUCCESSORS
+		_009Y
+
+_009Y, <csdl.operations.print_var.print_var object at 0x000001E5C5D723E0>
+	PREDECESSORS
+		min_z,(1,) 
+	SUCCESSORS
+		min_z_print,(1,) 
+
+min_z_print, <csdl.lang.output.Output object at 0x000001E5C5D723B0>, .min_z_print
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_009Y
+	SUCCESSORS
+
+_009_, <csdl.operations.power_combination.power_combination object at 0x000001E5C5D72170>
+	PREDECESSORS
+		vx,(40,) 
+	SUCCESSORS
+		_00a0,(40,) 
+
+_00a0, <csdl.lang.output.Output object at 0x000001E5C5D72200>, ._00a0
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_009_
+	SUCCESSORS
+		_00a3
+
+_00a3, <csdl.operations.linear_combination.linear_combination object at 0x000001E5C5E8C790>
+	PREDECESSORS
+		_00a0,(40,) 
+		_00a2,(40,) 
+	SUCCESSORS
+		_00a4,(40,) 
+
+_00a1, <csdl.operations.power_combination.power_combination object at 0x000001E5C5D721D0>
+	PREDECESSORS
+		vz,(40,) 
+	SUCCESSORS
+		_00a2,(40,) 
+
+_00a2, <csdl.lang.output.Output object at 0x000001E5C5D721A0>, ._00a2
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00a1
+	SUCCESSORS
+		_00a3
+
+_00a4, <csdl.lang.output.Output object at 0x000001E5C5E8C7C0>, ._00a4
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00a3
+	SUCCESSORS
+		_00a5
+
+_00a5, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8C7F0>
+	PREDECESSORS
+		_00a4,(40,) 
+	SUCCESSORS
+		v,(40,) 
+
+v, <csdl.lang.output.Output object at 0x000001E5C5E8C820>, .v
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00a5
+	SUCCESSORS
+		_00a7
+
+_00a7, <csdl.operations.decompose.decompose object at 0x000001E5C5E8C880>
+	PREDECESSORS
+		v,(40,) 
+	SUCCESSORS
+		final_v,(1,) 
+
+final_v, <csdl.lang.output.Output object at 0x000001E5C5E8C8B0>, .final_v
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00a7
+	SUCCESSORS
+
+_00ab, <csdl.operations.print_var.print_var object at 0x000001E5C5E8C8E0>
+	PREDECESSORS
+		cruise_power,(40, 1) 
+	SUCCESSORS
+		cruise_power_print,(40,) 
+
+cruise_power_print, <csdl.lang.output.Output object at 0x000001E5C5E8C940>, .cruise_power_print
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00ab
+	SUCCESSORS
+
+_00ad, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8C970>
+	PREDECESSORS
+		cruise_power,(40, 1) 
+	SUCCESSORS
+		_00ae,(40,) 
+
+_00ae, <csdl.lang.output.Output object at 0x000001E5C5E8C9A0>, ._00ae
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00ad
+	SUCCESSORS
+		_00af
+
+_00af, <csdl.operations.max.max object at 0x000001E5C5E8C9D0>
+	PREDECESSORS
+		_00ae,(40,) 
+	SUCCESSORS
+		_00ag,(1,) 
+
+_00ag, <csdl.lang.output.Output object at 0x000001E5C5E8CA00>, ._00ag
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00af
+	SUCCESSORS
+		_00ah
+
+_00ah, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CA30>
+	PREDECESSORS
+		_00ag,(1,) 
+	SUCCESSORS
+		max_cruise_power,(1,) 
+
+max_cruise_power, <csdl.lang.output.Output object at 0x000001E5C5E8CA60>, .max_cruise_power
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00ah
+	SUCCESSORS
+		_00ap
+
+_00aj, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CA90>
+	PREDECESSORS
+		lift_power,(40, 1) 
+	SUCCESSORS
+		_00ak,(40,) 
+
+_00ak, <csdl.lang.output.Output object at 0x000001E5C5E8CAC0>, ._00ak
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aj
+	SUCCESSORS
+		_00al
+
+_00al, <csdl.operations.max.max object at 0x000001E5C5E8CAF0>
+	PREDECESSORS
+		_00ak,(40,) 
+	SUCCESSORS
+		_00am,(1,) 
+
+_00am, <csdl.lang.output.Output object at 0x000001E5C5E8CB20>, ._00am
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00al
+	SUCCESSORS
+		_00an
+
+_00an, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CB50>
+	PREDECESSORS
+		_00am,(1,) 
+	SUCCESSORS
+		max_lift_power,(1,) 
+
+max_lift_power, <csdl.lang.output.Output object at 0x000001E5C5E8CB80>, .max_lift_power
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00an
+	SUCCESSORS
+		_00ar
+
+_00ap, <csdl.operations.print_var.print_var object at 0x000001E5C5E8CBB0>
+	PREDECESSORS
+		max_cruise_power,(1,) 
+	SUCCESSORS
+		max_cruise_power_print,(1,) 
+
+max_cruise_power_print, <csdl.lang.output.Output object at 0x000001E5C5E8CBE0>, .max_cruise_power_print
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00ap
+	SUCCESSORS
+
+_00ar, <csdl.operations.print_var.print_var object at 0x000001E5C5E8CC10>
+	PREDECESSORS
+		max_lift_power,(1,) 
+	SUCCESSORS
+		max_lift_power_print,(1,) 
+
+max_lift_power_print, <csdl.lang.output.Output object at 0x000001E5C5E8CC40>, .max_lift_power_print
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00ar
+	SUCCESSORS
+
+_00at, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CC70>
+	PREDECESSORS
+		dvx,(40, 1) 
+	SUCCESSORS
+		_00au,(40,) 
+
+_00au, <csdl.lang.output.Output object at 0x000001E5C5E8CCA0>, ._00au
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00at
+	SUCCESSORS
+		_00ax
+
+_00ax, <csdl.operations.linear_combination.linear_combination object at 0x000001E5C5E8CD30>
+	PREDECESSORS
+		_00au,(40,) 
+		_00aw,(40,) 
+	SUCCESSORS
+		_00ay,(40,) 
+
+_00av, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CCD0>
+	PREDECESSORS
+		dvz,(40, 1) 
+	SUCCESSORS
+		_00aw,(40,) 
+
+_00aw, <csdl.lang.output.Output object at 0x000001E5C5E8CD00>, ._00aw
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00av
+	SUCCESSORS
+		_00ax
+
+_00ay, <csdl.lang.output.Output object at 0x000001E5C5E8CD60>, ._00ay
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00ax
+	SUCCESSORS
+		_00az
+
+_00az, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CD90>
+	PREDECESSORS
+		_00ay,(40,) 
+	SUCCESSORS
+		_00aA,(40,) 
+
+_00aA, <csdl.lang.output.Output object at 0x000001E5C5E8CDC0>, ._00aA
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00az
+	SUCCESSORS
+		_00aB
+
+_00aB, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CDF0>
+	PREDECESSORS
+		_00aA,(40,) 
+	SUCCESSORS
+		ag,(40,) 
+
+ag, <csdl.lang.output.Output object at 0x000001E5C5E8CE20>, .ag
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aB
+	SUCCESSORS
+		_00aD
+
+_00aD, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CE50>
+	PREDECESSORS
+		ag,(40,) 
+	SUCCESSORS
+		_00aE,(40,) 
+
+_00aE, <csdl.lang.output.Output object at 0x000001E5C5E8CE80>, ._00aE
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aD
+	SUCCESSORS
+		_00aF
+
+_00aF, <csdl.operations.max.max object at 0x000001E5C5E8CEB0>
+	PREDECESSORS
+		_00aE,(40,) 
+	SUCCESSORS
+		_00aG,(1,) 
+
+_00aG, <csdl.lang.output.Output object at 0x000001E5C5E8CEE0>, ._00aG
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aF
+	SUCCESSORS
+		_00aH
+
+_00aH, <csdl.operations.power_combination.power_combination object at 0x000001E5C5E8CF10>
+	PREDECESSORS
+		_00aG,(1,) 
+	SUCCESSORS
+		max_g,(1,) 
+
+max_g, <csdl.lang.output.Output object at 0x000001E5C5E8CF40>, .max_g
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aH
+	SUCCESSORS
+		_00aJ
+
+_00aJ, <csdl.operations.print_var.print_var object at 0x000001E5C5E8CF70>
+	PREDECESSORS
+		max_g,(1,) 
+	SUCCESSORS
+		max_g_print,(1,) 
+
+max_g_print, <csdl.lang.output.Output object at 0x000001E5C5E8CFA0>, .max_g_print
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aJ
+	SUCCESSORS
+
+_00aL, <csdl.operations.decompose.decompose object at 0x000001E5C5E8D000>
+	PREDECESSORS
+		gamma,(40, 1) 
+	SUCCESSORS
+		final_gamma,(1,) 
+
+final_gamma, <csdl.lang.output.Output object at 0x000001E5C5E8D030>, .final_gamma
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aL
+	SUCCESSORS
+
+_00aN, <csdl.operations.max.max object at 0x000001E5C5E8CFD0>
+	PREDECESSORS
+		x,(40,) 
+	SUCCESSORS
+		max_x,(1,) 
+
+max_x, <csdl.lang.output.Output object at 0x000001E5C5E8D090>, .max_x
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aN
+	SUCCESSORS
+
+_00aP, <csdl.operations.decompose.decompose object at 0x000001E5C5E8D0C0>
+	PREDECESSORS
+		e,(40,) 
+	SUCCESSORS
+		energy,(1,) 
+
+energy, <csdl.lang.output.Output object at 0x000001E5C5E8D0F0>, .energy
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aP
+	SUCCESSORS
+		_00aR
+
+_00aR, <csdl.operations.print_var.print_var object at 0x000001E5C5E8D060>
+	PREDECESSORS
+		energy,(1,) 
+	SUCCESSORS
+		energy_print,(1,) 
+
+energy_print, <csdl.lang.output.Output object at 0x000001E5C5E8D150>, .energy_print
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00aR
+	SUCCESSORS
+
+_00b1, <ozone.classes.ODEModelTM.ODEModelComp object at 0x000001E5C5E8D330>
+	PREDECESSORS
+		ux,(40,) 
+		uz,(40,) 
+		ua,(40,) 
+		vx_0,(1,) 
+		vz_0,(1,) 
+		x_0,(1,) 
+		z_0,(1,) 
+		e_0,(1,) 
+		hvec,(39,) 
+	SUCCESSORS
+		alpha,(40, 1) 
+		gamma,(40, 1) 
+		lift,(40, 1) 
+		drag,(40, 1) 
+		density,(40, 1) 
+		cruise_power,(40, 1) 
+		lift_power,(40, 1) 
+		cruise_vaxial,(40, 1) 
+		cruise_vtan,(40, 1) 
+		dvx,(40, 1) 
+		dvz,(40, 1) 
+		vx,(40,) 
+		vz,(40,) 
+		x,(40,) 
+		z,(40,) 
+		e,(40,) 
+
+alpha, <csdl.lang.output.Output object at 0x000001E5C5E8D3F0>, subgroup.alpha
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+
+gamma, <csdl.lang.output.Output object at 0x000001E5C5E8D3C0>, subgroup.gamma
+	CONNECTED TO: False
+	PROMOTED TO: True
+		gamma, .gamma
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00aL
+
+lift, <csdl.lang.output.Output object at 0x000001E5C5E8D420>, subgroup.lift
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+
+drag, <csdl.lang.output.Output object at 0x000001E5C5E8D450>, subgroup.drag
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+
+density, <csdl.lang.output.Output object at 0x000001E5C5E8D480>, subgroup.density
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+
+cruise_power, <csdl.lang.output.Output object at 0x000001E5C5E8D4B0>, subgroup.cruise_power
+	CONNECTED TO: False
+	PROMOTED TO: True
+		cruise_power, .cruise_power
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00ab
+		_00ad
+
+lift_power, <csdl.lang.output.Output object at 0x000001E5C5E8D4E0>, subgroup.lift_power
+	CONNECTED TO: False
+	PROMOTED TO: True
+		lift_power, .lift_power
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00aj
+
+cruise_vaxial, <csdl.lang.output.Output object at 0x000001E5C5E8D510>, subgroup.cruise_vaxial
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+
+cruise_vtan, <csdl.lang.output.Output object at 0x000001E5C5E8D540>, subgroup.cruise_vtan
+	CONNECTED TO: False
+	PROMOTED TO: False
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+
+dvx, <csdl.lang.output.Output object at 0x000001E5C5E8D570>, subgroup.dvx
+	CONNECTED TO: False
+	PROMOTED TO: True
+		dvx, .dvx
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00at
+
+dvz, <csdl.lang.output.Output object at 0x000001E5C5E8D5A0>, subgroup.dvz
+	CONNECTED TO: False
+	PROMOTED TO: True
+		dvz, .dvz
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00av
+
+vx, <csdl.lang.output.Output object at 0x000001E5C5E8D5D0>, subgroup.vx
+	CONNECTED TO: False
+	PROMOTED TO: True
+		vx, .vx
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_009_
+
+vz, <csdl.lang.output.Output object at 0x000001E5C5E8D600>, subgroup.vz
+	CONNECTED TO: False
+	PROMOTED TO: True
+		vz, .vz
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00a1
+
+x, <csdl.lang.output.Output object at 0x000001E5C5E8D630>, subgroup.x
+	CONNECTED TO: False
+	PROMOTED TO: True
+		x, .x
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00aN
+
+z, <csdl.lang.output.Output object at 0x000001E5C5E8D660>, subgroup.z
+	CONNECTED TO: False
+	PROMOTED TO: True
+		z, .z
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_009Q
+		_009S
+
+e, <csdl.lang.output.Output object at 0x000001E5C5E8D690>, subgroup.e
+	CONNECTED TO: False
+	PROMOTED TO: True
+		e, .e
+	PREDECESSORS
+		_00b1
+	SUCCESSORS
+		_00aP
